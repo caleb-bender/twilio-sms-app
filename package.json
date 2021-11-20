@@ -1,0 +1,37 @@
+{
+  "name": "twilio-sms-app",
+  "version": "1.0.0",
+  "description": "A desktop app to send SMS messages with Twilio",
+  "scripts": {
+    "start-react": "set BROWSER=none && react-scripts start",
+    "build-react": "react-scripts build"
+  },
+  "author": "Wizrds LLC",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/electron": "^1.6.10",
+    "@types/react": "^17.0.35",
+    "@types/react-dom": "^17.0.11",
+    "electron": "^16.0.1",
+    "html-webpack-plugin": "^5.5.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "^4.0.3",
+    "ts-loader": "^9.2.6",
+    "typescript": "^4.5.2",
+    "webpack": "^4.44.2",
+    "webpack-cli": "^4.9.1"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
