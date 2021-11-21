@@ -7,6 +7,7 @@ let electronWindow: BrowserWindow | null = null;
 
 function initializeWindow() {
     electronWindow = new BrowserWindow({
+        title: process.env.APP_NAME ?? "Loading",
         autoHideMenuBar: true,
         width: 960,
         height: 640,
@@ -15,15 +16,16 @@ function initializeWindow() {
         }
     });
     if (process.env.NODE_ENV === "production") {
-        electronWindow.loadFile(path.join(__dirname, "../public/index.html"));
+        electronWindow.loadFile(path.join(__dirname, "../../react-app/build/index.html"));
     } else {
         electronWindow.loadURL(process.env.ELECTRON_START_URL ?? "http://localhost:3000");
     }
+    electronWindow.webContents.openDevTools();
 
     electronWindow.on("closed", () => {
         electronWindow = null;
     });
-    //electronWindow.webContents.openDevTools();
+    
 }
 
 
