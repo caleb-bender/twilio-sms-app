@@ -1,3 +1,8 @@
+/**
+ * index.tsx
+ * Description: The entry point of the application.
+ */
+
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
