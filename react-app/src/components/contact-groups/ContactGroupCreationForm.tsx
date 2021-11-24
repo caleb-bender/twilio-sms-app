@@ -3,16 +3,39 @@
  * Description: Creates a new contact group and saves it in the file system
  */
 
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Form, Button, Input, Message, FlexboxGrid, Col } from "rsuite";
 
 export default function ContactGroupCreationForm() {
 
+    const [loading, setLoading] = useState(false);
+    const initialRender = useRef(true);
+    const contactGroupName = useRef("");
+
+    const createButtonClicked = () => {
+        setLoading(true);
+        contactGroupName.current = document.getElementById("contact-group-name").value;
+    };
+
+
+    useEffect(() => {
+        // don't call on the initial render
+        if (initialRender.current) {
+            initialRender.current = false;
+        } else {
+            console.log(`${contactGroupName}`);
+        }
+    }, [loading]);
+
     return <Form layout="inline" style={{ width: "100%" }}>
-        <Form.Group controlId="contact-group-name">
-            <Form.Control name="contact-group-name" placeholder="Create a new contact group"/>
-        </Form.Group>
-        <Button appearance="primary" name="submit" type="submit">Create</Button>
-        <Message showIcon type="error" header="Error"/>
+        <FlexboxGrid justify="start">
+            <FlexboxGrid.Item as={Col} style={{ flexGrow: 4 }}>
+                <Input name="contact-group-name" id="contact-group-name" placeholder="Name of new contact group"/>
+            </FlexboxGrid.Item>
+            <FlexboxGrid.Item as={Col} style={{ flexGrow: 1 }}>
+                <Button name="submit" appearance="primary" onClick={createButtonClicked} loading={loading}>Create</Button>
+            </FlexboxGrid.Item>
+        </FlexboxGrid>
+        <Message showIcon type="error" header="Error" hidden/>
     </Form>;
 }
