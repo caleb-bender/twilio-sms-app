@@ -14,7 +14,8 @@ export default function ContactGroupCreationForm() {
 
     const createButtonClicked = () => {
         setLoading(true);
-        contactGroupName.current = document.getElementById("contact-group-name").value;
+        const contactGroupInputElement = document.getElementById("contact-group-name");
+        if (contactGroupInputElement !== null) contactGroupName.current = (contactGroupInputElement as HTMLInputElement).value;
     };
 
 
