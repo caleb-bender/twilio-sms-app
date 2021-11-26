@@ -7,6 +7,8 @@ import Joi from "joi";
 import path from "path";
 import APP_DATA_DIRECTORY from "../AppDataDirectory";
 import { getTwilioAccountId } from "../TwilioAccountCredentials";
+import { promisify } from "util";
+import fs from "fs";
 
 interface ContactEntry {
     firstName?: string;
@@ -23,9 +25,6 @@ export default class ContactGroup {
         "string.pattern.base": `The ${fieldName} cannot contain spaces.`,
         "string.max": `The ${fieldName} must be no longer than 100 characters.`
     });
-
-    // each user has their own folder using their twilio account sid
-    private _contactGroupJsonPath: string;
 
     private _contactGroupName: string;
     private _contacts: Record<string, ContactEntry>;
@@ -48,11 +47,24 @@ export default class ContactGroup {
         })
     });
 
+    private static async createContactGroupsJsonIfNotExists() {
+        const contactGroupFilePath = ContactGroup.getContactGroupsJsonFilePath();
+        if (!fs.existsSync(contactGroupFilePath)) {
+            await promisify(fs.writeFile)(contactGroupFilePath, "{}");
+        }
+    }
+
     private constructor(contactGroupName: string, contacts: Record<string, ContactEntry>) {
-        if (getTwilioAccountId() === undefined) throw new Error("You are not logged in. Please close the window and try again.");
-        this._contactGroupJsonPath = path.join(APP_DATA_DIRECTORY,  getTwilioAccountId(), "contact-groups.json");
         this._contactGroupName = contactGroupName;
         this._contacts = contacts;
+    }
+
+    /**
+     * @returns the correct contact group file based on the current logged in user or throws an error
+     */
+    public static getContactGroupsJsonFilePath() {
+        if (getTwilioAccountId() === undefined) throw new Error("You are not logged in. Please close the window and try again.");
+        return path.join(APP_DATA_DIRECTORY,  getTwilioAccountId(), "contact-groups.json");
     }
 
     public static async validateContactGroupName(contactGroupName: string): Promise<Joi.ValidationResult> {
@@ -73,8 +85,23 @@ export default class ContactGroup {
         }
     }
 
+    public static async getContactGroupsJson(): Promise<Record<string, Record<string, ContactEntry>>> {
+        return JSON.parse(await promisify(fs.readFile)(ContactGroup.getContactGroupsJsonFilePath(), "utf-8"));
+    }
+
+    public static async validateContactGroupNameIsAvailable(contactGroupName: string) {
+        try {
+            const contactGroupsJson: Record<string, ContactEntry> = await this.getContactGroupsJson();
+            if (contactGroupName in contactGroupsJson) throw new Error("There is already a contact group with the name specified.");
+        } catch (err) {
+            throw err;
+        }
+    }
+
     public static async createFromName(contactGroupName: string): Promise<ContactGroup> {
         try {
+            await this.createContactGroupsJsonIfNotExists();
+            await this.validateContactGroupNameIsAvailable(contactGroupName);
             const contactGroupNameValidation = await this.validateContactGroupName(contactGroupName);
             if (contactGroupNameValidation.error) throw contactGroupNameValidation.error;
             return new ContactGroup(contactGroupName, {});
@@ -83,12 +110,71 @@ export default class ContactGroup {
         }
     }
 
-    public static async loadFromFile(): Promise<ContactGroup> {
-        throw 14;
+    public static async loadFromFile(contactGroupName: string): Promise<ContactGroup> {
         try {
-            
+            const contactGroupsJson = await this.getContactGroupsJson();
+            if (!(contactGroupName in contactGroupsJson)) throw new Error(`There is no such contact group with the name \"${contactGroupName}\".`);
+            return new ContactGroup(contactGroupName, contactGroupsJson[contactGroupName]);
         } catch (err) {
-            
+            throw err;
+        }
+    }
+
+    public async save() {
+        try {
+            const contactGroupsJson = await ContactGroup.getContactGroupsJson();
+            contactGroupsJson[this._contactGroupName] = this._contacts;
+            await promisify(fs.writeFile)(ContactGroup.getContactGroupsJsonFilePath(), JSON.stringify(contactGroupsJson));
+        } catch (err) {
+            throw err;
+        }
+    }
+
+    public getContactEntryKey(contactEntry: ContactEntry) {
+        return `${contactEntry.firstName} ${contactEntry.lastName}`;
+    }
+
+    public async createContactEntry(contactEntry: ContactEntry) {
+        try {
+            const contactEntryKey = this.getContactEntryKey(contactEntry);
+            if (contactEntryKey in this._contacts) throw new Error(`${contactEntryKey} is already an existing contact.`);
+            const contactEntryValidationResult = await ContactGroup.validateContactEntry(contactEntry);
+            if (contactEntryValidationResult.error) throw contactEntryValidationResult.error;
+        } catch (err) {
+            throw err;
+        }
+    }
+
+    public async updateContactEntry(oldContactEntry: ContactEntry, newContactEntry: ContactEntry) {
+        try {
+            const contactEntryValidationResult = await ContactGroup.validateContactEntry(newContactEntry);
+            if (contactEntryValidationResult.error) throw contactEntryValidationResult.error;
+            const contactEntryKey = this.getContactEntryKey(oldContactEntry);
+            if (!(contactEntryKey in this._contacts)) throw new Error(`The ${contactEntryKey} could not be located for updating.`);
+            delete this._contacts[contactEntryKey];
+            this._contacts[this.getContactEntryKey(newContactEntry)] = newContactEntry;
+        } catch (err) {
+            throw err;
+        }
+    }
+
+    public async delete() {
+        try {
+            const contactGroupsJson = await ContactGroup.getContactGroupsJson();
+            delete contactGroupsJson[this._contactGroupName];
+            await promisify(fs.writeFile)(ContactGroup.getContactGroupsJsonFilePath(), JSON.stringify(contactGroupsJson));
+        } catch (err) {
+            throw err;
+        }
+    }
+
+    public async deleteContactEntry(contactEntry: ContactEntry) {
+        try {
+            const contactEntryKey = this.getContactEntryKey(contactEntry);
+            if (!(contactEntryKey in this._contacts)) throw new Error(`The ${contactEntryKey} could not be located for updating.`);
+            delete this._contacts[contactEntryKey];
+        } catch (err) {
+            throw err;
         }
     }
 }
