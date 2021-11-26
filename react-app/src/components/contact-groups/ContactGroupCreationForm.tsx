@@ -24,7 +24,7 @@ export default function ContactGroupCreationForm() {
         if (initialRender.current) {
             initialRender.current = false;
         } else {
-            console.log(`${contactGroupName}`);
+            console.log(`${contactGroupName.current}`);
         }
     }, [loading]);
 

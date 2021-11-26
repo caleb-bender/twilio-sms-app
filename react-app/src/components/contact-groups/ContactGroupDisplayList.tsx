@@ -4,7 +4,6 @@
  */
 
 import React from "react";
-import { Container } from "rsuite";
 import ContactGroupCreationForm from "./ContactGroupCreationForm";
 
 
