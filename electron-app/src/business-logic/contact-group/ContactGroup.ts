@@ -49,6 +49,10 @@ export default class ContactGroup {
 
     private static async createContactGroupsJsonIfNotExists() {
         const contactGroupFilePath = ContactGroup.getContactGroupsJsonFilePath();
+        const userFolderPath = path.join(APP_DATA_DIRECTORY, getTwilioAccountId());
+        if (!fs.existsSync(userFolderPath)) {
+            await promisify(fs.mkdir)(userFolderPath);
+        }
         if (!fs.existsSync(contactGroupFilePath)) {
             await promisify(fs.writeFile)(contactGroupFilePath, "{}");
         }

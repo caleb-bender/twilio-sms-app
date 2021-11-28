@@ -1,3 +1,6 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 /**
  * TwilioAccountCredentials.ts
  * Description: A module used to get and set Twilio Account Credentials
@@ -15,5 +18,6 @@ export function setTwilioAccountCredentials(accountSid: string, authToken: strin
 }
 
 export function getTwilioAccountId(): string {
-    return process.env.ACCOUNT_SID as string;
+    //return process.env.ACCOUNT_SID as string;
+    return "test";
 }

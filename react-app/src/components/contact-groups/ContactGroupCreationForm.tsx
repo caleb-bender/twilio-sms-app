@@ -3,30 +3,33 @@
  * Description: Creates a new contact group and saves it in the file system
  */
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { Form, Button, Input, Message, FlexboxGrid, Col } from "rsuite";
+const { ipcRenderer } = window.require("electron"); 
 
 export default function ContactGroupCreationForm() {
 
     const [loading, setLoading] = useState(false);
-    const initialRender = useRef(true);
     const contactGroupName = useRef("");
+    const [errorMsg, setErrorMsg] = useState("");
+    const [successMsg, setSuccessMsg] = useState("");
 
-    const createButtonClicked = () => {
+    const createButtonClicked = async () => {
         setLoading(true);
-        const contactGroupInputElement = document.getElementById("contact-group-name");
-        if (contactGroupInputElement !== null) contactGroupName.current = (contactGroupInputElement as HTMLInputElement).value;
+        ipcRenderer.send("create-contact-group", contactGroupName.current);
     };
 
+    ipcRenderer.on("create-contact-group-error", (event: any, errorMsg: any) => {
+        setErrorMsg(errorMsg);
+        setSuccessMsg("");
+        setLoading(false);
+    });
 
-    useEffect(() => {
-        // don't call on the initial render
-        if (initialRender.current) {
-            initialRender.current = false;
-        } else {
-            console.log(`${contactGroupName.current}`);
-        }
-    }, [loading]);
+    ipcRenderer.on("create-contact-group-success", (event: any, successMsg: any) => {
+        setSuccessMsg(successMsg);
+        setErrorMsg("");
+        setLoading(false);
+    });
 
     return <Form layout="inline" style={{ width: "100%" }}>
         <FlexboxGrid justify="start">
@@ -37,6 +40,7 @@ export default function ContactGroupCreationForm() {
                 <Button name="submit" appearance="primary" onClick={createButtonClicked} loading={loading}>Create</Button>
             </FlexboxGrid.Item>
         </FlexboxGrid>
-        <Message showIcon type="error" header="Error" hidden/>
+        <Message showIcon type="error" header={errorMsg} hidden={errorMsg ? false : true}/>
+        <Message showIcon type="success" header={successMsg} hidden={successMsg ? false : true}/>
     </Form>;
 }
