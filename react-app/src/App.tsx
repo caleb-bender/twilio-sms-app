@@ -13,13 +13,13 @@ function App() {
     return <>
         <h1 style={{ textAlign: "center", margin: "2rem" }}>Twilio SMS App</h1>
         <FlexboxGrid justify="start" style={{ height: "100%", margin: "1rem", flexWrap: "wrap" }}>
-            <FlexboxGrid.Item as={Col} style={{ minWidth: "350px", flexGrow: "1", width: "33%" }}>
-                <ContactGroupDisplayList />
-            </FlexboxGrid.Item>
             <FlexboxGrid.Item as={Col} style={{ minWidth: "330px", flexGrow: "2", width: "66%" }}>
                 <Content>
                     <h1>Hello</h1>
                 </Content>
+            </FlexboxGrid.Item>
+            <FlexboxGrid.Item as={Col} style={{ minWidth: "350px", flexGrow: "1", width: "33%" }}>
+                <ContactGroupDisplayList />
             </FlexboxGrid.Item>
         </FlexboxGrid>
     </>;

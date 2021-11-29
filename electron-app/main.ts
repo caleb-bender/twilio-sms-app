@@ -2,10 +2,11 @@ import { app, BrowserWindow } from "electron";
 import path from "path";
 import dotenv from "dotenv";
 import { ipcMain } from "electron";
-import CreateContactGroupCommand from "./src/commands/contact-group/CreateContactGroupCommand";
 import fs from "fs";
 import { promisify } from "util";
 import APP_DATA_DIRECTORY from "./src/business-logic/AppDataDirectory";
+import createContactGroupEvent from "./src/ipc-main-events/createContactGroupEvent";
+import requestContactGroupsListEvent from "./src/ipc-main-events/requestContactGroupsListEvent";
 dotenv.config();
 
 // create the twilio app folder if it does not exist
@@ -13,16 +14,9 @@ if (!fs.existsSync(APP_DATA_DIRECTORY)) {
     promisify(fs.mkdir)(APP_DATA_DIRECTORY);
 }
 
-ipcMain.on("create-contact-group", async (event, args) => {
-    try {
-        console.log("args:", args[0]);
-        const createContactGroupCommand = new CreateContactGroupCommand(args[0]);
-        await createContactGroupCommand.execute();
-        event.reply("create-contact-group-success", `The contact group "${args[0]}" was created successfully!`);
-    } catch (err) {
-        event.reply("create-contact-group-error", (err as Error).message);
-    }
-});
+ipcMain.on("create-contact-group", createContactGroupEvent);
+
+ipcMain.on("request-contact-groups-list", requestContactGroupsListEvent);
 
 let electronWindow: BrowserWindow | null = null;
 
@@ -50,7 +44,6 @@ function initializeWindow() {
     });
     
 }
-
 
 app.on("ready", initializeWindow);
 

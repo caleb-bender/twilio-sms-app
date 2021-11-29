@@ -3,9 +3,9 @@
  * Description: Creates a new contact group and saves it in the file system
  */
 
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Form, Button, Input, Message, FlexboxGrid, Col } from "rsuite";
-const { ipcRenderer } = window.require("electron"); 
+const { ipcRenderer } = window.require("electron");
 
 export default function ContactGroupCreationForm() {
 
@@ -14,8 +14,14 @@ export default function ContactGroupCreationForm() {
     const [errorMsg, setErrorMsg] = useState("");
     const [successMsg, setSuccessMsg] = useState("");
 
+    useEffect(() => {
+        // remove all ipcRenderer events listeners before component unmounts
+        return () => ipcRenderer.removeAllListeners(["create-contact-group-error", "create-contact-group-success"]);
+    }, []);
+
     const createButtonClicked = async () => {
         setLoading(true);
+        contactGroupName.current = (document.getElementById("contact-group-name") as HTMLInputElement).value;
         ipcRenderer.send("create-contact-group", contactGroupName.current);
     };
 
@@ -31,7 +37,7 @@ export default function ContactGroupCreationForm() {
         setLoading(false);
     });
 
-    return <Form layout="inline" style={{ width: "100%" }}>
+    return <Form layout="inline" style={{ width: "100%", marginTop: "2rem" }}>
         <FlexboxGrid justify="start">
             <FlexboxGrid.Item as={Col} style={{ flexGrow: 4 }}>
                 <Input name="contact-group-name" id="contact-group-name" placeholder="Name of new contact group"/>

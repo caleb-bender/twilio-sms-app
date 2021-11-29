@@ -19,10 +19,10 @@ interface ContactEntry {
 
 export default class ContactGroup {
 
-    private static nameField = (fieldName: string) => Joi.string().regex(/^\S+$/).required().max(100).messages({
+    private static nameField = (fieldName: string) => Joi.string().regex(/^(\w|\s|\.|'|-|,)$/).required().max(100).messages({
         "any.required": `The ${fieldName} is required.`,
         "string.empty": `The ${fieldName} is required.`,
-        "string.pattern.base": `The ${fieldName} cannot contain spaces.`,
+        "string.pattern.base": `The ${fieldName} contains invalid characters.`,
         "string.max": `The ${fieldName} must be no longer than 100 characters.`
     });
 
