@@ -28,7 +28,7 @@ export default function ContactGroupDisplayList() {
     });
 
     return <div style={{ margin: "1em" }}>
-        <ContactGroupCreationForm />
+        <ContactGroupCreationForm updateContactGroupsList={updateContactGroupsList}/>
         {contactGroupComponentList.map((name) => <ContactGroupCard contactGroupName={name} />)}
     </div>;
 }

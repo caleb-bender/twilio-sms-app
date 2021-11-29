@@ -7,7 +7,11 @@ import React, { useEffect, useRef, useState } from "react";
 import { Form, Button, Input, Message, FlexboxGrid, Col } from "rsuite";
 const { ipcRenderer } = window.require("electron");
 
-export default function ContactGroupCreationForm() {
+interface ContactGroupCreationFormProps {
+    updateContactGroupsList(): void;
+}
+
+export default function ContactGroupCreationForm(props: ContactGroupCreationFormProps) {
 
     const [loading, setLoading] = useState(false);
     const contactGroupName = useRef("");
@@ -35,6 +39,8 @@ export default function ContactGroupCreationForm() {
         setSuccessMsg(successMsg);
         setErrorMsg("");
         setLoading(false);
+        // tell the contact groups list to update
+        props.updateContactGroupsList();
     });
 
     return <Form layout="inline" style={{ width: "100%", marginTop: "2rem" }}>
