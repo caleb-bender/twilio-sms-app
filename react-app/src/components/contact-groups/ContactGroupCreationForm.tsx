@@ -39,7 +39,7 @@ export default function ContactGroupCreationForm(props: ContactGroupCreationForm
         setSuccessMsg(successMsg);
         setErrorMsg("");
         setLoading(false);
-        // tell the contact groups list to update
+        // tell the contact groups list to update in the parent
         props.updateContactGroupsList();
     });
 
@@ -52,7 +52,11 @@ export default function ContactGroupCreationForm(props: ContactGroupCreationForm
                 <Button name="submit" appearance="primary" onClick={createButtonClicked} loading={loading}>Create</Button>
             </FlexboxGrid.Item>
         </FlexboxGrid>
-        <Message showIcon type="error" header={errorMsg} hidden={errorMsg ? false : true}/>
-        <Message showIcon type="success" header={successMsg} hidden={successMsg ? false : true}/>
+        <Message showIcon type="error" header="Error" hidden={errorMsg ? false : true}>
+            {errorMsg}
+        </Message>
+        <Message showIcon type="success" header="Success" hidden={successMsg ? false : true}>
+            {successMsg}
+        </Message>
     </Form>;
 }

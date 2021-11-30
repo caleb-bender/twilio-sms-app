@@ -5,7 +5,8 @@
 
 const { ipcRenderer } = window.require("electron");
 import React, { useEffect, useState } from "react";
-import ContactGroupCard from "./ContactGroupCard";
+import { Col, FlexboxGrid } from "rsuite";
+import ContactGroupCard from "./contact-group-card/ContactGroupCard";
 import ContactGroupCreationForm from "./ContactGroupCreationForm";
 
 
@@ -27,8 +28,13 @@ export default function ContactGroupDisplayList() {
         setContactGroupComponentList(contactGroupsList as any);
     });
 
-    return <div style={{ margin: "1em" }}>
+    return <div style={{ margin: "1em auto" }}>
         <ContactGroupCreationForm updateContactGroupsList={updateContactGroupsList}/>
-        {contactGroupComponentList.map((name) => <ContactGroupCard contactGroupName={name} />)}
+        <FlexboxGrid justify="start" style={{ width: "100%" }}>
+            {contactGroupComponentList.map((name, index) =>
+            <FlexboxGrid.Item as={Col} style={{ flexGrow: "20" }} key={index}>
+                <ContactGroupCard contactGroupName={name} updateContactGroupsList={updateContactGroupsList}/>
+            </FlexboxGrid.Item>)}
+        </FlexboxGrid>
     </div>;
 }

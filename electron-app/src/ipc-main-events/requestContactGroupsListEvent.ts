@@ -10,6 +10,5 @@ export default async function requestContactGroupsListEvent(event: Electron.IpcM
         const contactGroupsList: string[] = await new GetContactGroupsCommand().execute();
         event.reply("receive-contact-groups-success", contactGroupsList);
     } catch (err) {
-        // event.reply("receive-contact-groups-error", (err as Error).message);
     }
 }
