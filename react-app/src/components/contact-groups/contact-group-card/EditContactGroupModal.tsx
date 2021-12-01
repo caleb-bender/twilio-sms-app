@@ -1,5 +1,5 @@
 const { ipcRenderer } = window.require("electron");
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Modal, Button, FlexboxGrid, Col, Row } from "rsuite";
 import ContactEntryCard from "../contacts/ContactEntryCard";
 
@@ -12,17 +12,26 @@ interface EditContactGroupModalProps {
 export default function EditContactGroupModal(props: EditContactGroupModalProps) {
 
     const [contactsList, setContactsList] = useState([]);
+    const hasRetrievedContacts = useRef(false);
 
-    ipcRenderer.on("get-contacts-success", (event: any, arg: any) => {
-        setContactsList(arg);
-    });
     
     const updateContactsList = () => {
         ipcRenderer.send("request-contacts", props.contactGroupName);
     };
     
-    useEffect(() => {
+    if (props.isOpen && !hasRetrievedContacts.current) {
+        hasRetrievedContacts.current = true;
         updateContactsList();
+    }
+
+    if (!props.isOpen) {
+        hasRetrievedContacts.current = false;
+    }
+
+    useEffect(() => {
+        ipcRenderer.on("get-contacts-success", (event: any, arg: any) => {
+            setContactsList(arg);
+        });
         return () => ipcRenderer.removeAllListeners(["get-contacts-success"]);
     }, []);
 

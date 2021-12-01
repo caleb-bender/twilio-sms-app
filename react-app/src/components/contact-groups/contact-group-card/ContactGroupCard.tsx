@@ -3,7 +3,8 @@
  * Description: A card that allows the user to modify/delete a contact group and its data
  */
 import React, { useState } from "react";
-import { Notification, FlexboxGrid, Modal, Button, Col } from "rsuite";
+const { ipcRenderer } = window.require("electron");
+import { Notification, FlexboxGrid, Col } from "rsuite";
 import { Edit, Trash } from "@rsuite/icons";
 import DeleteContactGroupModal from "./DeleteContactGroupModal";
 import EditContactGroupModal from "./EditContactGroupModal";
@@ -20,7 +21,9 @@ export default function ContactGroupCard(props: ContactGroupCardProps) {
     const [editModalIsOpen, setEditModalIsOpen] = useState(false);
     const [deleteModalIsOpen, setDeleteModalIsOpen] = useState(false);
 
-    const openEditContactGroupModal = () => setEditModalIsOpen(true);
+    const openEditContactGroupModal = () => {
+        setEditModalIsOpen(true);
+    };
     const closeEditContactGroupModal = () => setEditModalIsOpen(false);
     
     const openDeleteContactGroupModal = () => setDeleteModalIsOpen(true);

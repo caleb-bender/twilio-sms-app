@@ -19,34 +19,38 @@ export default function ContactGroupCreationForm(props: ContactGroupCreationForm
     const [successMsg, setSuccessMsg] = useState("");
 
     useEffect(() => {
+        ipcRenderer.on("create-contact-group-error", (event: any, errorMsg: any) => {
+            setErrorMsg(errorMsg);
+            setSuccessMsg("");
+            setLoading(false);
+        });
+        
+        ipcRenderer.on("create-contact-group-success", (event: any, successMsg: any) => {
+            setSuccessMsg(successMsg);
+            setErrorMsg("");
+            setLoading(false);
+            // tell the contact groups list to update in the parent
+            props.updateContactGroupsList();
+        });
         // remove all ipcRenderer events listeners before component unmounts
         return () => ipcRenderer.removeAllListeners(["create-contact-group-error", "create-contact-group-success"]);
     }, []);
-
-    const createButtonClicked = async () => {
+    
+    const createButtonClicked = () => {
         setLoading(true);
         contactGroupName.current = (document.getElementById("contact-group-name") as HTMLInputElement).value;
         ipcRenderer.send("create-contact-group", contactGroupName.current);
     };
-
-    ipcRenderer.on("create-contact-group-error", (event: any, errorMsg: any) => {
-        setErrorMsg(errorMsg);
+    
+    const hideErrorAndSuccessMessages = () => {
         setSuccessMsg("");
-        setLoading(false);
-    });
-
-    ipcRenderer.on("create-contact-group-success", (event: any, successMsg: any) => {
-        setSuccessMsg(successMsg);
         setErrorMsg("");
-        setLoading(false);
-        // tell the contact groups list to update in the parent
-        props.updateContactGroupsList();
-    });
+    };
 
     return <Form layout="inline" style={{ width: "100%", marginTop: "2rem" }}>
         <FlexboxGrid justify="start">
             <FlexboxGrid.Item as={Col} style={{ flexGrow: 4 }}>
-                <Input name="contact-group-name" id="contact-group-name" placeholder="Name of new contact group"/>
+                <Input name="contact-group-name" id="contact-group-name" placeholder="Name of new contact group" onFocus={hideErrorAndSuccessMessages}/>
             </FlexboxGrid.Item>
             <FlexboxGrid.Item as={Col} style={{ flexGrow: 1 }}>
                 <Button name="submit" appearance="primary" onClick={createButtonClicked} loading={loading}>Create</Button>

@@ -16,6 +16,10 @@ export default function ContactGroupDisplayList() {
 
     useEffect(() => {
         updateContactGroupsList();
+        // receives the most up to date contact groups list
+        ipcRenderer.on("receive-contact-groups-success", (event: any, contactGroupsList: string[]) => {
+            setContactGroupComponentList(contactGroupsList as any);
+        });
         return () => ipcRenderer.removeAllListeners(["receive-contact-groups-success", "receive-contact-groups-error"]);
     }, []);
 
@@ -23,18 +27,12 @@ export default function ContactGroupDisplayList() {
     const updateContactGroupsList = () => {
         ipcRenderer.send("request-contact-groups-list");
     };
-    // recieves the most up to date contact groups list
-    ipcRenderer.on("receive-contact-groups-success", (event: any, contactGroupsList: string[]) => {
-        setContactGroupComponentList(contactGroupsList as any);
-    });
 
     return <div style={{ margin: "1em auto" }}>
         <ContactGroupCreationForm updateContactGroupsList={updateContactGroupsList}/>
-        <FlexboxGrid justify="start" style={{ width: "100%" }}>
-            {contactGroupComponentList.map((name, index) =>
-            <FlexboxGrid.Item as={Col} style={{ flexGrow: "20" }} key={index}>
-                <ContactGroupCard contactGroupName={name} updateContactGroupsList={updateContactGroupsList}/>
-            </FlexboxGrid.Item>)}
-        </FlexboxGrid>
+        {contactGroupComponentList.map((name, index) =>
+        <div key={index}>
+            <ContactGroupCard contactGroupName={name} updateContactGroupsList={updateContactGroupsList}/>
+        </div>)}
     </div>;
 }

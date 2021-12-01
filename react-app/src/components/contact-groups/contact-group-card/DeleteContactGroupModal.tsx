@@ -16,15 +16,14 @@ export default function DeleteContactGroupModal(props: DeleteContactGroupModalPr
         props.onClose();
     };
 
-    ipcRenderer.on("delete-contact-group-success", (event: any, arg: any) => {
-        props.updateContactGroupsList();
-    });
-
-    ipcRenderer.on("delete-contact-group-error", (event: any, arg: any) => {
-        console.log(arg);
-    });
-
     useEffect(() => {
+        ipcRenderer.on("delete-contact-group-success", (event: any, arg: any) => {
+            props.updateContactGroupsList();
+        });
+    
+        ipcRenderer.on("delete-contact-group-error", (event: any, arg: any) => {
+            console.log(arg);
+        });
         // remove all ipcRenderer events listeners before component unmounts
         return () => ipcRenderer.removeAllListeners(["delete-contact-group-success","delete-contact-group-error"]);
     }, []);

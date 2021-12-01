@@ -22,21 +22,22 @@ export default function ContactEntryCard(props: ContactEntryCardProps) {
     const [phoneNumber, setPhoneNumber] = useState(props.phoneNumber);
     const [editing, setEditing] = useState(false);
 
-    return <Notification style={{ margin: "1rem", width: "100%" }}>
-        <FlexboxGrid justify="space-between" align="middle" style={{ width: "100%", minWidth: "300px" }}>
-            <FlexboxGrid.Item as={Col}>
-                <h5>{props.firstName}</h5>
-            </FlexboxGrid.Item>
-            <FlexboxGrid.Item as={Col}>
-                <h5>{props.lastName}</h5>
-            </FlexboxGrid.Item>
-            <FlexboxGrid.Item as={Col}>
-                <h5>{props.phoneNumber}</h5>
-            </FlexboxGrid.Item>
-            <FlexboxGrid.Item as={Col}>
-                <Edit style={cardIconStyle} />
-                <Trash style={cardIconStyle} />
-            </FlexboxGrid.Item>
-        </FlexboxGrid>
-    </Notification>;
+    // return <Notification style={{ margin: "1rem", width: "100%" }}>
+    //     <FlexboxGrid justify="space-between" align="middle" style={{ width: "100%", minWidth: "300px" }}>
+    //         <FlexboxGrid.Item as={Col}>
+    //             <h5>{props.firstName}</h5>
+    //         </FlexboxGrid.Item>
+    //         <FlexboxGrid.Item as={Col}>
+    //             <h5>{props.lastName}</h5>
+    //         </FlexboxGrid.Item>
+    //         <FlexboxGrid.Item as={Col}>
+    //             <h5>{props.phoneNumber}</h5>
+    //         </FlexboxGrid.Item>
+    //         <FlexboxGrid.Item as={Col}>
+    //             <Edit style={cardIconStyle} />
+    //             <Trash style={cardIconStyle} />
+    //         </FlexboxGrid.Item>
+    //     </FlexboxGrid>
+    // </Notification>;
+    return <h1>Hello World!</h1>;
 }
