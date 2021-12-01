@@ -29,7 +29,7 @@ export default function EditContactGroupModal(props: EditContactGroupModalProps)
     }
 
     useEffect(() => {
-        ipcRenderer.on("get-contacts-success", (event: any, arg: any) => {
+        ipcRenderer.on(`get-contacts-success-for-${props.contactGroupName}`, (event: any, arg: any) => {
             setContactsList(arg);
         });
         return () => ipcRenderer.removeAllListeners(["get-contacts-success"]);
@@ -38,22 +38,17 @@ export default function EditContactGroupModal(props: EditContactGroupModalProps)
 
     return <Modal open={props.isOpen} onClose={props.onClose}>
         <Modal.Header>
-        <Modal.Title>Edit "{props.contactGroupName}"</Modal.Title>
+        <Modal.Title>Edit Contact Group "{props.contactGroupName}"</Modal.Title>
         </Modal.Header>
         <Modal.Body>
             <FlexboxGrid justify="center">
-                {contactsList.map((contact: any) => {
-                    <FlexboxGrid.Item as={Row}>
+                {contactsList.map((contact: any) => <FlexboxGrid.Item as={Row} key={`${contact.firstName} ${contact.lastName}`}>
                         <ContactEntryCard contactGroupName={props.contactGroupName}
                         firstName={contact.firstName} lastName={contact.lastName} phoneNumber={contact.phoneNumber}/>
-                    </FlexboxGrid.Item>
-                })}
+                    </FlexboxGrid.Item>)}
             </FlexboxGrid>
         </Modal.Body>
         <Modal.Footer>
-        <Button onClick={props.onClose} appearance="primary">
-            Save Changes
-        </Button>
         </Modal.Footer>
     </Modal>;
 }

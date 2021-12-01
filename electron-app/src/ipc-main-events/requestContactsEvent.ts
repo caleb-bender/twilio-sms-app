@@ -9,8 +9,7 @@ import GetContactsCommand from "../commands/contacts/GetContactsCommand";
 export default async function requestContactsEvent(event: Electron.IpcMainEvent, contactGroupName: any) {
     try {
         const contactsObject = await new GetContactsCommand(contactGroupName).execute();
-        console.log(contactsObject);
-        event.reply("get-contacts-success", Object.keys(contactsObject).map(contactKey => contactsObject[contactKey]));
+        event.reply(`get-contacts-success-for-${contactGroupName}`, Object.keys(contactsObject).map(contactKey => contactsObject[contactKey]));
     } catch (err) {
         console.log("REQUEST CONTACTS ERROR:", err);
     }
