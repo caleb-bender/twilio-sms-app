@@ -6,11 +6,11 @@
 import Electron from "electron";
 import CreateContactGroupCommand from "../commands/contact-group/CreateContactGroupCommand";
 
-export default async function createContactGroupEvent(event: Electron.IpcMainEvent, arg: any) {
+export default async function createContactGroupEvent(event: Electron.IpcMainEvent, contactGroupName: any) {
     try {
-        const createContactGroupCommand = new CreateContactGroupCommand(arg);
+        const createContactGroupCommand = new CreateContactGroupCommand(contactGroupName);
         await createContactGroupCommand.execute();
-        event.reply("create-contact-group-success", `The contact group "${arg}" was created successfully!`);
+        event.reply("create-contact-group-success", `The contact group "${contactGroupName}" was created successfully!`);
     } catch (err) {
         event.reply("create-contact-group-error", (err as Error).message);
     }

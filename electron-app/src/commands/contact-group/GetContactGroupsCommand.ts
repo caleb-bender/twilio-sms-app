@@ -6,9 +6,9 @@
 import ContactGroup from "../../business-logic/contact-group/ContactGroup";
 import ICommand from "../ICommand";
 
-export default class GetContactGroupsCommand implements ICommand {
+export default class GetContactGroupsCommand implements ICommand<string[]> {
 
-    public async execute(): Promise<any> {
+    public async execute(): Promise<string[]> {
         const contactGroupData = await ContactGroup.getContactGroupsJson();
         return Object.keys(contactGroupData);
     }

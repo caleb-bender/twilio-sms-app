@@ -5,7 +5,7 @@
  import Electron from "electron";
 import GetContactGroupsCommand from "../commands/contact-group/GetContactGroupsCommand";
 
-export default async function requestContactGroupsListEvent(event: Electron.IpcMainEvent, arg: any) {
+export default async function requestContactGroupsListEvent(event: Electron.IpcMainEvent) {
     try {
         const contactGroupsList: string[] = await new GetContactGroupsCommand().execute();
         event.reply("receive-contact-groups-success", contactGroupsList);

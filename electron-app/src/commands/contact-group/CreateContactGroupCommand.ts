@@ -7,7 +7,7 @@ import ContactGroup from "../../business-logic/contact-group/ContactGroup";
 import ICommand from "../ICommand";
 
 
-export default class CreateContactGroupCommand implements ICommand {
+export default class CreateContactGroupCommand implements ICommand<void> {
 
     private _contactGroupName: string;
 

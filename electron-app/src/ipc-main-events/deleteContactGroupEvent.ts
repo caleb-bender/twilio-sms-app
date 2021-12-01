@@ -5,9 +5,9 @@
  import Electron from "electron";
 import DeleteContactGroupCommand from "../commands/contact-group/DeleteContactGroupCommand";
 
-export default async function deleteContactGroupEvent(event: Electron.IpcMainEvent, arg: any) {
+export default async function deleteContactGroupEvent(event: Electron.IpcMainEvent, contactGroupName: any) {
     try {
-        await new DeleteContactGroupCommand(arg).execute();
+        await new DeleteContactGroupCommand(contactGroupName).execute();
         event.reply("delete-contact-group-success");
     } catch (err) {
         event.reply("delete-contact-group-error", (err as Error).message);

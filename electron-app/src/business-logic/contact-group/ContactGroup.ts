@@ -10,7 +10,7 @@ import { getTwilioAccountId } from "../TwilioAccountCredentials";
 import { promisify } from "util";
 import fs from "fs";
 
-interface ContactEntry {
+export interface ContactEntry {
     firstName?: string;
     lastName?: string;
     phoneNumber?: string;
@@ -181,4 +181,6 @@ export default class ContactGroup {
             throw err;
         }
     }
+
+    public get contacts() { return this._contacts; }
 }

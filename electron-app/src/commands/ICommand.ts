@@ -4,6 +4,6 @@
  * Use Cases: An implementation of ICommand will be called when a piece of business logic needs to be called.
  */
 
-export default interface ICommand {
-    execute(): Promise<any>;
+export default interface ICommand<T> {
+    execute(): Promise<T>;
 }
