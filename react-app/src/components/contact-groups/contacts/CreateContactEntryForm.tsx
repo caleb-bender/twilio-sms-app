@@ -39,9 +39,9 @@ export default function CreateContactEntryForm() {
     
     const createButtonClicked = () => {
         setLoading(true);
-        contactEntry.current.firstName = (document.getElementById("contact-group-first-name") as HTMLInputElement).value;
-        contactEntry.current.lastName = (document.getElementById("contact-group-last-name") as HTMLInputElement).value;
-        contactEntry.current.phoneNumber = (document.getElementById("contact-group-phone-number") as HTMLInputElement).value;
+        contactEntry.current.firstName = (document.getElementById("contact-entry-first-name") as HTMLInputElement).value;
+        contactEntry.current.lastName = (document.getElementById("contact-entry-last-name") as HTMLInputElement).value;
+        contactEntry.current.phoneNumber = (document.getElementById("contact-entry-phone") as HTMLInputElement).value;
         ipcRenderer.send("create-contact-entry", contactEntry.current);
     };
     

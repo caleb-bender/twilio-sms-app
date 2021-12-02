@@ -19,7 +19,7 @@ export interface ContactEntrySchema {
 
 export default class ContactEntry {
 
-    private static nameField = (fieldName: string) => Joi.string().regex(/^(\w|\s|\.|'|-|,)$/).required().max(100).messages({
+    private static nameField = (fieldName: string) => Joi.string().regex(/^(\w|\s|\.|'|-|,)+$/).required().max(100).messages({
         "any.required": `The ${fieldName} is required.`,
         "string.empty": `The ${fieldName} is required.`,
         "string.pattern.base": `The ${fieldName} contains invalid characters.`,
@@ -91,6 +91,8 @@ export default class ContactEntry {
             const contactEntries = await ContactEntry.getContactEntriesJson();
             // make sure the contact entry does not already exist
             if (contactEntryKey in contactEntries) throw new Error(`${contactEntryKey} is already an existing contact.`);
+            // add the contact to the contact entries
+            contactEntries[contactEntryKey] = contactEntry;
             return new ContactEntry(contactEntry, contactEntries);
         } catch (err) {
             throw err;
