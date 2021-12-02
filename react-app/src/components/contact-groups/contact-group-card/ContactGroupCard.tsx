@@ -10,6 +10,7 @@ import DeleteContactGroupModal from "./DeleteContactGroupModal";
 import EditContactGroupModal from "./EditContactGroupModal";
 
 const cardIconStyle = { cursor: "pointer", fontSize: "1.3rem", margin: "0 1rem" };
+const cardContentStyle = { margin: "0.25rem" };
 
 interface ContactGroupCardProps {
     contactGroupName: string;
@@ -31,10 +32,10 @@ export default function ContactGroupCard(props: ContactGroupCardProps) {
 
     return <Notification style={{ margin: "1rem", width: "100%" }}>
         <FlexboxGrid justify="space-between" align="middle" style={{ width: "100%", minWidth: "300px" }}>
-            <FlexboxGrid.Item as={Col}>
+            <FlexboxGrid.Item as={Col} style={cardContentStyle}>
                 <h5>{props.contactGroupName}</h5>
             </FlexboxGrid.Item>
-            <FlexboxGrid.Item as={Col}>
+            <FlexboxGrid.Item as={Col} style={cardContentStyle}>
                 <Edit style={cardIconStyle} onClick={openEditContactGroupModal} />
                 <Trash style={cardIconStyle} onClick={openDeleteContactGroupModal}/>
             </FlexboxGrid.Item>

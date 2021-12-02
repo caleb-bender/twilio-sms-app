@@ -8,12 +8,10 @@ import ICommand from "../ICommand";
 
 export default class SearchContactsCommand implements ICommand<ContactEntrySchema[]> {
 
-    private _contactGroupName: string;
     private _contactNameSearch: string;
 
-    public constructor(contactGroupName: string, contactNameSearch: string) {
-        this._contactGroupName = contactGroupName;
-        this._contactNameSearch = contactNameSearch;
+    public constructor(contactNameSearch: string) {
+        this._contactNameSearch = contactNameSearch.toLowerCase();
     }
 
     public async execute(): Promise<ContactEntrySchema[]> {
@@ -21,7 +19,7 @@ export default class SearchContactsCommand implements ICommand<ContactEntrySchem
         const contactEntriesArr =
         Object.keys(contactEntriesRecord)
         .map(contactEntryKey => contactEntriesRecord[contactEntryKey])
-        .filter(contactEntry => `${contactEntry.firstName} ${contactEntry.lastName}`.search(this._contactNameSearch) !== -1 ? false : true);
+        .filter(contactEntry => (`${contactEntry.firstName} ${contactEntry.lastName}`.toLowerCase().search(this._contactNameSearch) !== -1 || this._contactNameSearch === "") ? true : false);
         return contactEntriesArr;
     }
 

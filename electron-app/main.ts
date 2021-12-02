@@ -9,6 +9,7 @@ import createContactGroupEvent from "./src/ipc-main-events/createContactGroupEve
 import requestContactGroupsListEvent from "./src/ipc-main-events/requestContactGroupsListEvent";
 import deleteContactGroupEvent from "./src/ipc-main-events/deleteContactGroupEvent";
 import createContactEntryEvent from "./src/ipc-main-events/createContactEntryEvent";
+import searchForContactsEvent from "./src/ipc-main-events/searchForContactsEvent";
 dotenv.config();
 
 // create the twilio app folder if it does not exist
@@ -20,6 +21,7 @@ ipcMain.on("create-contact-group", createContactGroupEvent);
 ipcMain.on("create-contact-entry", createContactEntryEvent);
 ipcMain.on("request-contact-groups-list", requestContactGroupsListEvent);
 ipcMain.on("delete-contact-group", deleteContactGroupEvent);
+ipcMain.on("search-for-contacts", searchForContactsEvent);
 
 let electronWindow: BrowserWindow | null = null;
 

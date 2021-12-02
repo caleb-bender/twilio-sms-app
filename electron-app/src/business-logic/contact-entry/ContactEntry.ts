@@ -29,11 +29,11 @@ export default class ContactEntry {
     private static _contactEntrySchema = Joi.object({
         firstName: this.nameField("first name"),
         lastName: this.nameField("last name"),
-        phoneNumber: Joi.string().length(10).regex(/^\d+$/).required().messages({
+        phoneNumber: Joi.string().length(11).regex(/^1(\d)+$/).required().messages({
             "any.required": "The phone number is required.",
             "string.empty": "The phone number is required.",
-            "string.pattern.base": "The phone number must be all numbers.",
-            "string.length": "The phone number must be exactly 10 digits long."
+            "string.pattern.base": "The phone number must be a North American number exactly 11 digits long.",
+            "string.length": "The phone number must be a North American number exactly 11 digits long."
         })
     });
 
@@ -48,13 +48,13 @@ export default class ContactEntry {
     /**
      * @returns the correct contact entries file based on the current logged in user or throws an error
      */
-     public static getContactGroupsJsonFilePath() {
+     public static getContactEntriesJsonFilePath() {
         if (getTwilioAccountId() === undefined) throw new Error("You are not logged in. Please close the window and try again.");
         return path.join(APP_DATA_DIRECTORY,  getTwilioAccountId(), "contact-entries.json");
     }
 
     private static async createContactEntriesJsonIfNotExists() {
-        const contactEntryFilePath = ContactEntry.getContactGroupsJsonFilePath();
+        const contactEntryFilePath = ContactEntry.getContactEntriesJsonFilePath();
         const userFolderPath = path.join(APP_DATA_DIRECTORY, getTwilioAccountId());
         if (!fs.existsSync(userFolderPath)) {
             await promisify(fs.mkdir)(userFolderPath);
@@ -74,7 +74,8 @@ export default class ContactEntry {
     }
 
     public static async getContactEntriesJson(): Promise<Record<string, ContactEntrySchema>> {
-        return JSON.parse(await promisify(fs.readFile)(ContactEntry.getContactGroupsJsonFilePath(), "utf-8"));
+        await this.createContactEntriesJsonIfNotExists();
+        return JSON.parse(await promisify(fs.readFile)(ContactEntry.getContactEntriesJsonFilePath(), "utf-8"));
     }
 
     public static getContactEntryKey(contactEntry: ContactEntrySchema) {
@@ -138,7 +139,7 @@ export default class ContactEntry {
     }
 
     public async save() {
-        const contactEntryFilePath = ContactEntry.getContactGroupsJsonFilePath();
+        const contactEntryFilePath = ContactEntry.getContactEntriesJsonFilePath();
         await promisify(fs.writeFile)(contactEntryFilePath, JSON.stringify(this._contactEntries));
     }
 }

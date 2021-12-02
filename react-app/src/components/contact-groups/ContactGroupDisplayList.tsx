@@ -30,9 +30,11 @@ export default function ContactGroupDisplayList() {
 
     return <div style={{ margin: "1em auto" }}>
         <ContactGroupCreationForm updateContactGroupsList={updateContactGroupsList}/>
-        {contactGroupComponentList.map((name, index) =>
-        <div key={index}>
-            <ContactGroupCard contactGroupName={name} updateContactGroupsList={updateContactGroupsList}/>
-        </div>)}
+        <div style={{ height: "500px", overflowY: "scroll" }}>
+            {contactGroupComponentList.map((name, index) =>
+            <div key={index}>
+                <ContactGroupCard contactGroupName={name} updateContactGroupsList={updateContactGroupsList}/>
+            </div>)}
+        </div>
     </div>;
 }

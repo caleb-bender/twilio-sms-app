@@ -33,12 +33,6 @@ export default function EditContactGroupModal(props: EditContactGroupModalProps)
         <Modal.Title>Edit Contact Group "{props.contactGroupName}"</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <FlexboxGrid justify="center">
-                {contactsList.map((contact: any) => <FlexboxGrid.Item as={Row} key={`${contact.firstName} ${contact.lastName}`}>
-                        <ContactEntryCard contactGroupName={props.contactGroupName}
-                        firstName={contact.firstName} lastName={contact.lastName} phoneNumber={contact.phoneNumber}/>
-                    </FlexboxGrid.Item>)}
-            </FlexboxGrid>
         </Modal.Body>
         <Modal.Footer>
         </Modal.Footer>
