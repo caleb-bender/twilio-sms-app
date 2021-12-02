@@ -9,7 +9,6 @@ import { Col, FlexboxGrid } from "rsuite";
 import ContactGroupCard from "./contact-group-card/ContactGroupCard";
 import ContactGroupCreationForm from "./ContactGroupCreationForm";
 
-
 export default function ContactGroupDisplayList() {
 
     const [contactGroupComponentList, setContactGroupComponentList] = useState([]);
