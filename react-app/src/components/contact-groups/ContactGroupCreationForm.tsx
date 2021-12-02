@@ -50,7 +50,7 @@ export default function ContactGroupCreationForm(props: ContactGroupCreationForm
     return <Form layout="inline" style={{ width: "100%", marginTop: "2rem" }}>
         <FlexboxGrid justify="start">
             <FlexboxGrid.Item as={Col} style={{ flexGrow: 4 }}>
-                <Input name="contact-group-name" id="contact-group-name" placeholder="Name of new contact group" onFocus={hideErrorAndSuccessMessages}/>
+                <Input name="contact-group-name" id="contact-group-name" placeholder="Contact Group Name" onFocus={hideErrorAndSuccessMessages}/>
             </FlexboxGrid.Item>
             <FlexboxGrid.Item as={Col} style={{ flexGrow: 1 }}>
                 <Button name="submit" appearance="primary" onClick={createButtonClicked} loading={loading}>Create</Button>

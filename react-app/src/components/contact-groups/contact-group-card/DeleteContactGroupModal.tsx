@@ -8,7 +8,10 @@ interface DeleteContactGroupModalProps {
     onClose(): void;
     updateContactGroupsList(): void;
 }
-
+/**
+ * @param props contains the contact group name and additional data for the modal to use on open/close
+ * @returns A modal component
+ */
 export default function DeleteContactGroupModal(props: DeleteContactGroupModalProps) {
 
     const deleteContactGroup = () => {
@@ -33,7 +36,7 @@ export default function DeleteContactGroupModal(props: DeleteContactGroupModalPr
         <Modal.Title>Delete Contact Group"{props.contactGroupName}"</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            Are you sure you want to delete the "{props.contactGroupName}" contact group? All its contacts and data will be lost forever.
+            Are you sure you want to delete the "{props.contactGroupName}" contact group?
         </Modal.Body>
         <Modal.Footer>
         <Button onClick={deleteContactGroup} appearance="primary" color="red">

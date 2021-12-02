@@ -8,7 +8,6 @@ import APP_DATA_DIRECTORY from "./src/business-logic/AppDataDirectory";
 import createContactGroupEvent from "./src/ipc-main-events/createContactGroupEvent";
 import requestContactGroupsListEvent from "./src/ipc-main-events/requestContactGroupsListEvent";
 import deleteContactGroupEvent from "./src/ipc-main-events/deleteContactGroupEvent";
-import requestContactsEvent from "./src/ipc-main-events/requestContactsEvent";
 dotenv.config();
 
 // create the twilio app folder if it does not exist
@@ -19,7 +18,6 @@ if (!fs.existsSync(APP_DATA_DIRECTORY)) {
 ipcMain.on("create-contact-group", createContactGroupEvent);
 ipcMain.on("request-contact-groups-list", requestContactGroupsListEvent);
 ipcMain.on("delete-contact-group", deleteContactGroupEvent);
-ipcMain.on("request-contacts", requestContactsEvent);
 
 let electronWindow: BrowserWindow | null = null;
 

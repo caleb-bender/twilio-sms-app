@@ -14,24 +14,16 @@ export default function EditContactGroupModal(props: EditContactGroupModalProps)
     const [contactsList, setContactsList] = useState([]);
     const hasRetrievedContacts = useRef(false);
 
-    
-    const updateContactsList = () => {
-        ipcRenderer.send("request-contacts", props.contactGroupName);
-    };
-    
+    // retrieve the contacts list on every open
     if (props.isOpen && !hasRetrievedContacts.current) {
         hasRetrievedContacts.current = true;
-        updateContactsList();
     }
-
+    // reset the hasRetrievedContacts ref on every close
     if (!props.isOpen) {
         hasRetrievedContacts.current = false;
     }
 
     useEffect(() => {
-        ipcRenderer.on(`get-contacts-success-for-${props.contactGroupName}`, (event: any, arg: any) => {
-            setContactsList(arg);
-        });
         return () => ipcRenderer.removeAllListeners(["get-contacts-success"]);
     }, []);
 

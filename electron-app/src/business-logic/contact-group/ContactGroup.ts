@@ -10,41 +10,17 @@ import { getTwilioAccountId } from "../TwilioAccountCredentials";
 import { promisify } from "util";
 import fs from "fs";
 
-export interface ContactEntry {
-    firstName?: string;
-    lastName?: string;
-    phoneNumber?: string;
-}
-
-
 export default class ContactGroup {
 
-    private static nameField = (fieldName: string) => Joi.string().regex(/^(\w|\s|\.|'|-|,)$/).required().max(100).messages({
-        "any.required": `The ${fieldName} is required.`,
-        "string.empty": `The ${fieldName} is required.`,
-        "string.pattern.base": `The ${fieldName} contains invalid characters.`,
-        "string.max": `The ${fieldName} must be no longer than 100 characters.`
-    });
-
     private _contactGroupName: string;
-    private _contacts: Record<string, ContactEntry>;
+    // references to contact entries
+    private _contacts: Record<string, boolean>;
 
     private static _contactGroupNameSchema = Joi.string().regex(/^(\w|\s)+$/).required().max(200).messages({
         "string.empty": "The contact group name is required.",
         "any.required": "The contact group name is required.",
         "string.pattern.base": "The contact group name can only contain letters, numbers, and spaces.",
         "string.max": "The contact group name must be no longer than 200 characters."
-    });
-
-    private static _contactEntrySchema = Joi.object({
-        firstName: this.nameField("first name"),
-        lastName: this.nameField("last name"),
-        phoneNumber: Joi.string().length(10).regex(/^\d+$/).required().messages({
-            "any.required": "The phone number is required.",
-            "string.empty": "The phone number is required.",
-            "string.pattern.base": "The phone number must be all numbers.",
-            "string.length": "The phone number must be exactly 10 digits long."
-        })
     });
 
     private static async createContactGroupsJsonIfNotExists() {
@@ -58,7 +34,7 @@ export default class ContactGroup {
         }
     }
 
-    private constructor(contactGroupName: string, contacts: Record<string, ContactEntry>) {
+    private constructor(contactGroupName: string, contacts: Record<string, boolean>) {
         this._contactGroupName = contactGroupName;
         this._contacts = contacts;
     }
@@ -80,22 +56,13 @@ export default class ContactGroup {
         }
     }
 
-    public static async validateContactEntry(contactEntry: ContactEntry): Promise<Joi.ValidationResult> {
-        try {
-            await this._contactEntrySchema.validateAsync(contactEntry);
-            return { value: contactEntry };
-        } catch (err) {
-            return { value: contactEntry, error: (err as Joi.ValidationError) };
-        }
-    }
-
-    public static async getContactGroupsJson(): Promise<Record<string, Record<string, ContactEntry>>> {
+    public static async getContactGroupsJson(): Promise<Record<string, Record<string, boolean>>> {
         return JSON.parse(await promisify(fs.readFile)(ContactGroup.getContactGroupsJsonFilePath(), "utf-8"));
     }
 
     public static async validateContactGroupNameIsAvailable(contactGroupName: string) {
         try {
-            const contactGroupsJson: Record<string, ContactEntry> = await this.getContactGroupsJson();
+            const contactGroupsJson = await this.getContactGroupsJson();
             if (contactGroupName in contactGroupsJson) throw new Error("There is already a contact group with the name specified.");
         } catch (err) {
             throw err;
@@ -127,36 +94,9 @@ export default class ContactGroup {
     public async save() {
         try {
             const contactGroupsJson = await ContactGroup.getContactGroupsJson();
+            // save the contact references
             contactGroupsJson[this._contactGroupName] = this._contacts;
             await promisify(fs.writeFile)(ContactGroup.getContactGroupsJsonFilePath(), JSON.stringify(contactGroupsJson));
-        } catch (err) {
-            throw err;
-        }
-    }
-
-    public getContactEntryKey(contactEntry: ContactEntry) {
-        return `${contactEntry.firstName} ${contactEntry.lastName}`;
-    }
-
-    public async createContactEntry(contactEntry: ContactEntry) {
-        try {
-            const contactEntryKey = this.getContactEntryKey(contactEntry);
-            if (contactEntryKey in this._contacts) throw new Error(`${contactEntryKey} is already an existing contact.`);
-            const contactEntryValidationResult = await ContactGroup.validateContactEntry(contactEntry);
-            if (contactEntryValidationResult.error) throw contactEntryValidationResult.error;
-        } catch (err) {
-            throw err;
-        }
-    }
-
-    public async updateContactEntry(oldContactEntry: ContactEntry, newContactEntry: ContactEntry) {
-        try {
-            const contactEntryValidationResult = await ContactGroup.validateContactEntry(newContactEntry);
-            if (contactEntryValidationResult.error) throw contactEntryValidationResult.error;
-            const contactEntryKey = this.getContactEntryKey(oldContactEntry);
-            if (!(contactEntryKey in this._contacts)) throw new Error(`The ${contactEntryKey} could not be located for updating.`);
-            delete this._contacts[contactEntryKey];
-            this._contacts[this.getContactEntryKey(newContactEntry)] = newContactEntry;
         } catch (err) {
             throw err;
         }
@@ -167,16 +107,6 @@ export default class ContactGroup {
             const contactGroupsJson = await ContactGroup.getContactGroupsJson();
             delete contactGroupsJson[this._contactGroupName];
             await promisify(fs.writeFile)(ContactGroup.getContactGroupsJsonFilePath(), JSON.stringify(contactGroupsJson));
-        } catch (err) {
-            throw err;
-        }
-    }
-
-    public async deleteContactEntry(contactEntry: ContactEntry) {
-        try {
-            const contactEntryKey = this.getContactEntryKey(contactEntry);
-            if (!(contactEntryKey in this._contacts)) throw new Error(`The ${contactEntryKey} could not be located for updating.`);
-            delete this._contacts[contactEntryKey];
         } catch (err) {
             throw err;
         }
