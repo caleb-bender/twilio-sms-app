@@ -4,34 +4,31 @@
  * Use Cases: It is injected first into the DOM
  */
 
-import React from "react";
-import { Container, Header, Sidebar, Content, FlexboxGrid, Col } from "rsuite";
-import ContactGroupDisplayList from "./components/contact-groups/ContactGroupDisplayList";
-import CreateContactEntryForm from "./components/contact-groups/contacts/CreateContactEntryForm";
+import React, { useState } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { CustomProvider, Toggle } from "rsuite";
 import "rsuite/dist/rsuite.min.css";
-import ContactEntriesResultList from "./components/contact-groups/contacts/ContactEntriesResultList";
+import HomePage from "./pages/HomePage";
+import LoginPage from "./pages/LoginPage";
 
 function App() {
+
+    const [darkTheme, setDarkTheme] = useState(false);
+
+    const toggleTheme = () => {
+        setDarkTheme(!darkTheme);
+    };
+
     return <>
-        <h1 style={{ textAlign: "center", margin: "2rem" }}>Twilio SMS App</h1>
-        <FlexboxGrid justify="start" style={{ height: "100%", margin: "1rem", flexWrap: "wrap" }}>
-            <FlexboxGrid.Item as={Col} style={{ minWidth: "400px", flexGrow: "2", width: "25%" }}>
-                <h3 style={{ fontWeight: "normal"}}>Contacts</h3>
-                <CreateContactEntryForm />
-            </FlexboxGrid.Item>
-            <FlexboxGrid.Item as={Col} style={{ minWidth: "400px", flexGrow: "2", width: "25%" }}>
-                <ContactEntriesResultList />
-            </FlexboxGrid.Item>
-            <FlexboxGrid.Item as={Col} style={{ minWidth: "400px", flexGrow: "2", width: "25%" }}>
-                <Content>
-                    <h1>Hello</h1>
-                </Content>
-            </FlexboxGrid.Item>
-            <FlexboxGrid.Item as={Col} style={{ minWidth: "400px", flexGrow: "2", width: "25%" }}>
-                <h3 style={{ fontWeight: "normal"}}>Contact Groups</h3>
-                <ContactGroupDisplayList />
-            </FlexboxGrid.Item>
-        </FlexboxGrid>
+        <Toggle size="lg" checkedChildren="Light" unCheckedChildren="Dark" onChange={toggleTheme} style={{ position: "fixed", top: "1rem", left: "1rem" }}/>
+        <CustomProvider theme={darkTheme ? "dark" : "light"}>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/" element={<LoginPage/>}/>
+                    <Route path="/home" element={<HomePage/>}/>
+                </Routes>
+            </BrowserRouter>
+        </CustomProvider>
     </>;
 }
 
