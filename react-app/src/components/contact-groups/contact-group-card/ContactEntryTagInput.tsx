@@ -58,12 +58,12 @@ export default function ContactEntryTagInput(props: ContactEntryTagInputProps) {
         ipcRenderer.on("save-contact-entries-for-contact-group-success", (event: any, message: string) => {
             setContactEntryTagsErrMsg("");
             setContactEntryTagsSuccessMsg(message);
-            ipcRenderer.removeAllListeners(["save-contact-entries-for-contact-group-success"])
+            ipcRenderer.removeAllListeners(["save-contact-entries-for-contact-group-success"]);
         });
         ipcRenderer.on("save-contact-entries-for-contact-group-error", (event: any, message: string) => {
             setContactEntryTagsSuccessMsg("");
             setContactEntryTagsErrMsg(message);
-            ipcRenderer.removeAllListeners(["save-contact-entries-for-contact-group-error"])
+            ipcRenderer.removeAllListeners(["save-contact-entries-for-contact-group-error"]);
         });
         return () => ipcRenderer.removeAllListeners(["get-contacts-of-contact-group-error", "get-contacts-of-contact-group-success", "search-for-contacts-success", "save-contact-entries-for-contact-group-success", "save-contact-entries-for-contact-group-error"]);
     }, []);
