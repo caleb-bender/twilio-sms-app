@@ -18,6 +18,10 @@ interface CurrentAndNewContactEntries {
 export default async function editContactEntryEvent(event: Electron.IpcMainEvent, currentAndNew: CurrentAndNewContactEntries) {
     const currentContactEntryKey = `${ContactEntry.getContactEntryKey(currentAndNew.current)}`;
     try {
+        // make sure the new contact entry does not already exist somewhere else 
+        const contactEntries = await ContactEntry.getContactEntriesJson();
+        const newContactEntryKey = ContactEntry.getContactEntryKey(currentAndNew.new);
+        if (newContactEntryKey in contactEntries) throw new Error("The contact specified already exists elsewhere.");
         const editContactEntryCommand = new EditContactEntryCommand(currentAndNew.current, currentAndNew.new);
         await editContactEntryCommand.execute();
         // find and replace all references of this contact with the new name

@@ -114,6 +114,7 @@ export default class ContactGroup {
     }
 
     public get contacts() { return this._contacts; }
+    public set contacts(newContacts: Record<string, boolean>) { this._contacts = newContacts; }
 
     public addContactEntry(contactEntryKey: string ) {
         this._contacts[contactEntryKey] = true; 

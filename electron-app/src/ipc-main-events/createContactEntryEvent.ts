@@ -11,7 +11,7 @@ export default async function createContactEntryEvent(event: Electron.IpcMainEve
     try {
         const createContactEntryCommand = new CreateContactEntryCommand(contactEntrySchema);
         await createContactEntryCommand.execute();
-        event.reply("create-contact-entry-success", `The contact "${contactEntrySchema.firstName} ${contactEntrySchema.lastName}" was created successfully!`);
+        event.reply("create-contact-entry-success", `The contact "${contactEntrySchema.firstName} ${contactEntrySchema.lastName}" was created successfully.`);
     } catch (err) {
         event.reply("create-contact-entry-error", (err as Error).message);
     }

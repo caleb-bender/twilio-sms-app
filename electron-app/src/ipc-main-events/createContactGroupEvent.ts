@@ -10,7 +10,7 @@ export default async function createContactGroupEvent(event: Electron.IpcMainEve
     try {
         const createContactGroupCommand = new CreateContactGroupCommand(contactGroupName);
         await createContactGroupCommand.execute();
-        event.reply("create-contact-group-success", `The contact group "${contactGroupName}" was created successfully!`);
+        event.reply("create-contact-group-success", `The contact group "${contactGroupName}" was created successfully.`);
     } catch (err) {
         event.reply("create-contact-group-error", (err as Error).message);
     }

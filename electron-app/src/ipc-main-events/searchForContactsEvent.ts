@@ -5,11 +5,13 @@
  import Electron from "electron";
 import SearchContactsCommand from "../commands/contacts/SearchContactsCommand";
 
-export default async function searchForContactsEvent(event: Electron.IpcMainEvent, searchQuery: string) {
-    try {
-        const contactEntries = await new SearchContactsCommand(searchQuery).execute();
-        event.reply("search-for-contacts-success", contactEntries);
-    } catch (err) {
+export default function searchForContactsEvent(replyEvent: string = "search-for-contacts-success")  {
+    return async (event: Electron.IpcMainEvent, searchQuery: string) => {
+        try {
+            const contactEntries = await new SearchContactsCommand(searchQuery).execute();
+            event.reply(replyEvent, contactEntries);
+        } catch (err) {
 
+        }
     }
-}
+};
