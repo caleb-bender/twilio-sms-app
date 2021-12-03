@@ -9,6 +9,7 @@ import APP_DATA_DIRECTORY from "../AppDataDirectory";
 import { getTwilioAccountId } from "../TwilioAccountCredentials";
 import { promisify } from "util";
 import fs from "fs";
+import ContactEntry, { ContactEntrySchema } from "../contact-entry/ContactEntry";
 
 export default class ContactGroup {
 
@@ -113,4 +114,12 @@ export default class ContactGroup {
     }
 
     public get contacts() { return this._contacts; }
+
+    public addContactEntry(contactEntryKey: string ) {
+        this._contacts[contactEntryKey] = true; 
+    }
+
+    public removeContactEntry(contactEntryKey: string) {
+        delete this._contacts[contactEntryKey];
+    }
 }

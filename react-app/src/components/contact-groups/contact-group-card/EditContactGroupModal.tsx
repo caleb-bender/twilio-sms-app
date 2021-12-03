@@ -2,6 +2,7 @@ const { ipcRenderer } = window.require("electron");
 import React, { useEffect, useRef, useState } from "react";
 import { Modal, Button, FlexboxGrid, Col, Row } from "rsuite";
 import ContactEntryCard from "../contacts/ContactEntryCard";
+import ContactEntryTagInput from "./ContactEntryTagInput";
 
 interface EditContactGroupModalProps {
     contactGroupName: string;
@@ -33,6 +34,7 @@ export default function EditContactGroupModal(props: EditContactGroupModalProps)
         <Modal.Title>Edit Contact Group "{props.contactGroupName}"</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+            <ContactEntryTagInput contactGroupName={props.contactGroupName} editModalIsOpen={props.isOpen}/>
         </Modal.Body>
         <Modal.Footer>
         </Modal.Footer>

@@ -16,7 +16,7 @@ export interface ContactEntryCardProps {
     firstName: string;
     lastName: string;
     phoneNumber: string;
-    removeContactEntryFromDisplay(deletedContactEntry: ContactEntryCardProps): void;
+    removeContactEntryFromDisplay(deletedContactEntry: string): void;
 }
 
 export default function ContactEntryCard(props: ContactEntryCardProps) {
@@ -26,7 +26,7 @@ export default function ContactEntryCard(props: ContactEntryCardProps) {
     const [editing, setEditing] = useState(false);
     const [deleteModalIsOpen, setDeleteModalIsOpen] = useState(false);
     const [editErrorMsg, setEditErrorMsg] = useState("");
-    const contactEntryKey = `${props.firstName} ${props.lastName}`;
+    const contactEntryKey = `${firstName} ${lastName}`;
     
     const openDeleteContactGroupModal = () => setDeleteModalIsOpen(true);
     const closeDeleteContactGroupModal = () => setDeleteModalIsOpen(false);
@@ -41,10 +41,17 @@ export default function ContactEntryCard(props: ContactEntryCardProps) {
         const newFirstName = (document.getElementById(`contact-firstName-(${contactEntryKey})`) as HTMLInputElement).value;
         const newLastName = (document.getElementById(`contact-lastName-(${contactEntryKey})`) as HTMLInputElement).value;
         const newPhoneNumber = (document.getElementById(`contact-phoneNumber-(${contactEntryKey})`) as HTMLInputElement).value;
-        ipcRenderer.send(
-            "edit-contact-entry",
-            // send the current data along with the new data
-            { current: { firstName, lastName, phoneNumber }, new: { firstName: newFirstName, lastName: newLastName, phoneNumber: newPhoneNumber} });
+        // only send a request if the data was changed
+        if (newFirstName !== firstName || newLastName !== lastName || newPhoneNumber !== phoneNumber) {
+            ipcRenderer.send(
+                "edit-contact-entry",
+                // send the current data along with the new data
+                { current: { firstName, lastName, phoneNumber }, new: { firstName: newFirstName, lastName: newLastName, phoneNumber: newPhoneNumber} });
+        } else {
+            // if the data is the same then close the editing window
+            setEditErrorMsg("");
+            setEditing(false);
+        }
     };
 
     useEffect(() => {
@@ -68,13 +75,13 @@ export default function ContactEntryCard(props: ContactEntryCardProps) {
     return <Notification style={{ margin: "0.5rem", width: "100%" }}>
         <FlexboxGrid justify="space-between" align="middle" style={{ width: "100%", minWidth: "200px" }}>
             <FlexboxGrid.Item as={Col} style={cardContentStyle}>
-                {editing ? <Input name="firstName" id={`contact-firstName-(${contactEntryKey})`} defaultValue={props.firstName}/> : <h5>{props.firstName}</h5>}
+                {editing ? <Input name="firstName" id={`contact-firstName-(${contactEntryKey})`} defaultValue={firstName} placeholder="First Name"/> : <h5>{firstName}</h5>}
             </FlexboxGrid.Item>
             <FlexboxGrid.Item as={Col} style={cardContentStyle}>
-                {editing ? <Input name="lastName" id={`contact-lastName-(${contactEntryKey})`} defaultValue={props.lastName} /> : <h5>{props.lastName}</h5>}
+                {editing ? <Input name="lastName" id={`contact-lastName-(${contactEntryKey})`} defaultValue={lastName} placeholder="Last Name"/> : <h5>{lastName}</h5>}
             </FlexboxGrid.Item>
             <FlexboxGrid.Item as={Col} style={cardContentStyle}>
-                {editing ? <Input name="phoneNumber" id={`contact-phoneNumber-(${contactEntryKey})`} defaultValue={props.phoneNumber} /> : <h5>{`+${props.phoneNumber.slice(0,1)}-(${props.phoneNumber.slice(1,4)})-${props.phoneNumber.slice(4,7)}-${props.phoneNumber.slice(7)}`}</h5>}
+                {editing ? <Input name="phoneNumber" id={`contact-phoneNumber-(${contactEntryKey})`} defaultValue={phoneNumber} placeholder="Phone Number"/> : <h5>{`+${phoneNumber.slice(0,1)}-(${phoneNumber.slice(1,4)})-${phoneNumber.slice(4,7)}-${phoneNumber.slice(7)}`}</h5>}
             </FlexboxGrid.Item>
             <FlexboxGrid.Item as={Col} style={cardContentStyle}>
                 {editing ? <Check style={cardIconStyle} onClick={saveContact}/> : <Edit style={cardIconStyle} onClick={editContact}/>}
@@ -84,6 +91,6 @@ export default function ContactEntryCard(props: ContactEntryCardProps) {
         <Message showIcon type="error" header="Error" hidden={editErrorMsg ? false : true}>
                 {editErrorMsg}
         </Message>
-        <DeleteContactEntryModal contactEntry={{ firstName: props.firstName, lastName: props.lastName, phoneNumber: props.phoneNumber } as any} isOpen={deleteModalIsOpen} onClose={closeDeleteContactGroupModal} removeContactEntryFromDisplay={props.removeContactEntryFromDisplay}/>
+        <DeleteContactEntryModal contactEntry={{ firstName, lastName, phoneNumber} as any} isOpen={deleteModalIsOpen} onClose={closeDeleteContactGroupModal} removeContactEntryFromDisplay={props.removeContactEntryFromDisplay}/>
     </Notification>;
 }

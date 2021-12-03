@@ -15,9 +15,9 @@ export default function ContactEntriesResultList() {
         setContactEntries(contactEntries);
     };
 
-    const removeContactEntryFromDisplay = (deletedContactEntry: ContactEntryCardProps) => {
+    const removeContactEntryFromDisplay = (deletedContactEntryKey: string) => {
         setContactEntries(prevContactEntries => prevContactEntries.filter(contactEntry =>
-            `${contactEntry.firstName} ${contactEntry.lastName}` !== `${deletedContactEntry.firstName} ${deletedContactEntry.lastName}`));
+            `${contactEntry.firstName} ${contactEntry.lastName}` !== deletedContactEntryKey));
     }
 
     return <div>
@@ -26,6 +26,7 @@ export default function ContactEntriesResultList() {
             {contactEntries.map((contact: any) => <FlexboxGrid.Item as={Row} key={`${contact.firstName} ${contact.lastName}`}>
                 <ContactEntryCard firstName={contact.firstName} lastName={contact.lastName} phoneNumber={contact.phoneNumber} removeContactEntryFromDisplay={removeContactEntryFromDisplay}/>
             </FlexboxGrid.Item>)}
+            {contactEntries.length === 0 ? <FlexboxGrid.Item as={Row}><h5>No results found.</h5></FlexboxGrid.Item> : <></>}
         </FlexboxGrid>
     </div>;
 }

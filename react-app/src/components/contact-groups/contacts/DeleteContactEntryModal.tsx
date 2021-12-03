@@ -1,5 +1,5 @@
 const { ipcRenderer } = window.require("electron");
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { Modal, Button } from "rsuite";
 import { ContactEntryCardProps } from "./ContactEntryCard";
 
@@ -7,13 +7,16 @@ interface DeleteContactEntryModalProps {
     contactEntry: ContactEntryCardProps;
     isOpen: boolean;
     onClose(): void;
-    removeContactEntryFromDisplay(deletedContactEntry: ContactEntryCardProps): void;
+    removeContactEntryFromDisplay(deletedContactEntryKey: string): void;
 }
 /**
  * @param props contains the contact entry and additional data for the modal to use on open/close
  * @returns A modal component
  */
 export default function DeleteContactEntryModal(props: DeleteContactEntryModalProps) {
+
+    // keep track of the initial key for deletion
+    const initialContactEntryKey = useRef(`${props.contactEntry.firstName} ${props.contactEntry.lastName}`);
 
     const deleteContactEntry = () => {
         ipcRenderer.send("delete-contact-entry", props.contactEntry);
@@ -24,7 +27,7 @@ export default function DeleteContactEntryModal(props: DeleteContactEntryModalPr
 
     useEffect(() => {
         ipcRenderer.on("delete-contact-entry-success", (event: any, contactEntry: ContactEntryCardProps) => {
-            props.removeContactEntryFromDisplay(contactEntry);
+            props.removeContactEntryFromDisplay(initialContactEntryKey.current);
         });
     
         ipcRenderer.on("delete-contact-entry-error", (event: any, arg: any) => {
