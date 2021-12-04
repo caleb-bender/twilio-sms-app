@@ -20,7 +20,7 @@ function App() {
     };
 
     return <>
-        <Toggle size="lg" checkedChildren="Light" unCheckedChildren="Dark" onChange={toggleTheme} style={{ position: "fixed", top: "1rem", left: "1rem" }}/>
+        <Toggle size="lg" checkedChildren="Dark" unCheckedChildren="Light" onChange={toggleTheme} style={{ position: "relative", top: "1rem", left: "1rem", zIndex: "100000" }}/>
         <CustomProvider theme={darkTheme ? "dark" : "light"}>
             <BrowserRouter>
                 <Routes>

@@ -7,6 +7,8 @@ dotenv.config();
  * Use Cases: Logging a user in or a user accesses their account data
  */
 
+import twilio from "twilio";
+
 /**
  * setTwilioAccountCredentials
  * @param accountSid the Twilio account id
@@ -18,6 +20,9 @@ export function setTwilioAccountCredentials(accountSid: string, authToken: strin
 }
 
 export function getTwilioAccountId(): string {
-    //return process.env.ACCOUNT_SID as string;
-    return "test";
+    return process.env.ACCOUNT_SID as string;
+}
+
+export function getTwilioClient(accountSid: string = process.env.ACCOUNT_SID as string, authToken: string = process.env.AUTH_TOKEN as string) {
+    return twilio(accountSid, authToken);
 }

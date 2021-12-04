@@ -3,7 +3,7 @@
  * Description: A component that contains information about a contact entry and allows editing/deletion as well
  */
 
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { Col, FlexboxGrid, Notification, Input, Message } from "rsuite";
 import { Edit, Trash, Check } from "@rsuite/icons";
 import DeleteContactEntryModal from "./DeleteContactEntryModal";
@@ -62,9 +62,11 @@ export default function ContactEntryCard(props: ContactEntryCardProps) {
             setPhoneNumber(newContactEntry.phoneNumber);
             setEditErrorMsg("");
             setEditing(false);
+            ipcRenderer.removeAllListeners([`edit-contact-entry-${contactEntryKey}-success`]);
         });
         ipcRenderer.on(`edit-contact-entry-${contactEntryKey}-error`, (event: any, errorMsg: string) => {
             setEditErrorMsg(errorMsg);
+            ipcRenderer.removeAllListeners([`edit-contact-entry-${contactEntryKey}-error`]);
         });
         return () => ipcRenderer.removeAllListeners([
             `edit-contact-entry-${contactEntryKey}-success`,
