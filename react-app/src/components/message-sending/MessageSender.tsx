@@ -101,7 +101,7 @@ export default function MessageSender() {
         <Message showIcon type="success" header="Success" hidden={successMsg ? false : true}>
             {successMsg}
         </Message>
-        <Modal open={modalIsOpen} onClose={closeConfirmationModal} size="lg">
+        <Modal open={modalIsOpen} onClose={closeConfirmationModal} size="lg" >
             <Modal.Header>
             <Modal.Title>Send a message</Modal.Title>
             </Modal.Header>
@@ -117,7 +117,7 @@ export default function MessageSender() {
                         <CheckPicker sticky data={getConvertedContactGroups()} id="contact-group-recipients" appearance="subtle" placeholder="Add Contact Groups By Name" style={{ width: "100%" }} value={selectedContactGroups} onChange={updateSelectedContactGroups} onEnter={clearMessages} />
                     </FlexboxGrid.Item>
                     <FlexboxGrid.Item as={Col} style={textFieldsStyle}>
-                        <Input as="textarea" rows={10} placeholder="Enter a message to send" id="twilio-message-body" onFocus={clearMessages}/>
+                        <Input as="textarea" rows={6} placeholder="Enter a message to send" id="twilio-message-body" onFocus={clearMessages}/>
                     </FlexboxGrid.Item>
             </FlexboxGrid>
             <Message showIcon type="error" header="Error" hidden={errorMsg ? false : true}>

@@ -6,6 +6,7 @@
 import ContactEntry from "../business-logic/contact-entry/ContactEntry";
 import ContactGroup from "../business-logic/contact-group/ContactGroup";
 import MessageCredentialsValidator from "../business-logic/messaging/MessageCredentialsValidator";
+import SavedAccountPhoneAndName from "../business-logic/messaging/SavedAccountPhoneAndName";
 import { getTwilioClient } from "../business-logic/TwilioAccountCredentials";
 
 interface MessageCredentialsProps {
@@ -41,6 +42,8 @@ export default async function sendMessageToContactGroupRecipientsEvent(event: El
                 body: `${args.nameOnMessage}: ${args.messageBody}`
             });
         }
+        // save the phone number and name for later use
+        await SavedAccountPhoneAndName.savePhoneAndName(args.twilioPhoneNumber, args.nameOnMessage);
         event.reply("send-message-to-contact-group-recipients-success", "The message was sent successfully to all contacts specified!");
     } catch (err) {
         console.log((err as Error).message);
