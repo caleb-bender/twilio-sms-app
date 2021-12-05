@@ -36,9 +36,9 @@ export default async function editContactEntryEvent(event: Electron.IpcMainEvent
         });
         await promisify(fs.writeFile)(ContactGroup.getContactGroupsJsonFilePath(), JSON.stringify(contactGroups));
         // send back the new contact entry on success
-        event.reply(`edit-contact-entry-${currentContactEntryKey}-success`, currentAndNew.new);
+        event.reply(`edit-contact-entry-${currentContactEntryKey}-success`, currentAndNew.new, currentContactEntryKey);
     } catch (err) {
         // send back an error message
-        event.reply(`edit-contact-entry-${currentContactEntryKey}-error`, (err as Error).message);
+        event.reply(`edit-contact-entry-${currentContactEntryKey}-error`, (err as Error).message, currentContactEntryKey);
     }
 }

@@ -36,7 +36,7 @@ export default function DeleteContactGroupModal(props: DeleteContactGroupModalPr
         <Modal.Title>Delete Contact Group "{props.contactGroupName}"</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            Are you sure you want to delete the contact group "{props.contactGroupName}"?
+            Are you sure you want to delete the contact group "{props.contactGroupName}"? It along with all references to its contacts will be deleted.
         </Modal.Body>
         <Modal.Footer>
         <Button onClick={deleteContactGroup} appearance="primary" color="red">

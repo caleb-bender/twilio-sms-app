@@ -42,7 +42,8 @@ export default function DeleteContactEntryModal(props: DeleteContactEntryModalPr
         <Modal.Title>Delete Contact Entry "{contactEntryKey}"</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            Are you sure you want to delete the contact "{contactEntryKey}"?
+            Are you sure you want to delete the contact "{contactEntryKey}"? All references to this contact will be removed
+            from every contact group.
         </Modal.Body>
         <Modal.Footer>
         <Button onClick={deleteContactEntry} appearance="primary" color="red">

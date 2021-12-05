@@ -4,11 +4,12 @@
  */
 
 import React from "react";
-import { Content, FlexboxGrid, Col } from "rsuite";
+import { FlexboxGrid, Col } from "rsuite";
 import ContactGroupDisplayList from "./../components/contact-groups/ContactGroupDisplayList";
 import CreateContactEntryForm from "./../components/contact-groups/contacts/CreateContactEntryForm";
 import ContactEntriesResultList from "./../components/contact-groups/contacts/ContactEntriesResultList";
 import LogoutButton from "../components/auth/LogoutButton";
+import MessageSender from "../components/message-sending/MessageSender";
 
 export default function HomePage() {
     return <>
@@ -22,13 +23,11 @@ export default function HomePage() {
                 <ContactEntriesResultList />
             </FlexboxGrid.Item>
             <FlexboxGrid.Item as={Col} style={{ minWidth: "400px", flexGrow: "2", width: "25%" }}>
-                <Content>
-                    <h1>Hello</h1>
-                </Content>
-            </FlexboxGrid.Item>
-            <FlexboxGrid.Item as={Col} style={{ minWidth: "400px", flexGrow: "2", width: "25%" }}>
                 <h3 style={{ fontWeight: "normal"}}>Contact Groups</h3>
                 <ContactGroupDisplayList />
+            </FlexboxGrid.Item>
+            <FlexboxGrid.Item as={Col} style={{ minWidth: "400px", flexGrow: "2", width: "25%" }}>
+                <MessageSender />
             </FlexboxGrid.Item>
         </FlexboxGrid>
     </>;

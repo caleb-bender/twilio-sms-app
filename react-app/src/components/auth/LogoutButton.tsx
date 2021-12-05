@@ -38,7 +38,7 @@ export default function LogoutButton() {
     <Exit onClick={onOpen} style={{ position: "absolute", top: "1rem", right: "2rem", zIndex: "100000", fontSize: "1.5rem", cursor: "pointer" }} />
     <Modal open={isOpen} onClose={onClose}>
         <Modal.Header>
-        <Modal.Title>Confirm Logout</Modal.Title>
+        <Modal.Title>Confirm Log out</Modal.Title>
         </Modal.Header>
         <Modal.Body>
             Are you sure you would like to log out and end your current session?

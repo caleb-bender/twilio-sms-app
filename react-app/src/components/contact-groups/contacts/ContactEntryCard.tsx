@@ -3,7 +3,7 @@
  * Description: A component that contains information about a contact entry and allows editing/deletion as well
  */
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Col, FlexboxGrid, Notification, Input, Message } from "rsuite";
 import { Edit, Trash, Check } from "@rsuite/icons";
 import DeleteContactEntryModal from "./DeleteContactEntryModal";
@@ -56,17 +56,18 @@ export default function ContactEntryCard(props: ContactEntryCardProps) {
 
     useEffect(() => {
         // declare listeners
-        ipcRenderer.on(`edit-contact-entry-${contactEntryKey}-success`, (event: any, newContactEntry: ContactEntryCardProps) => {
+        ipcRenderer.on(`edit-contact-entry-${contactEntryKey}-success`, (event: any, newContactEntry: ContactEntryCardProps, currentContactEntryKey: string) => {
             setFirstName(newContactEntry.firstName);
             setLastName(newContactEntry.lastName);
             setPhoneNumber(newContactEntry.phoneNumber);
             setEditErrorMsg("");
             setEditing(false);
-            ipcRenderer.removeAllListeners([`edit-contact-entry-${contactEntryKey}-success`]);
+            ipcRenderer.removeAllListeners([`edit-contact-entry-${currentContactEntryKey}-success`]);
         });
-        ipcRenderer.on(`edit-contact-entry-${contactEntryKey}-error`, (event: any, errorMsg: string) => {
+        ipcRenderer.on(`edit-contact-entry-${contactEntryKey}-error`, (event: any, errorMsg: string, currentContactEntryKey: string) => {
+            setEditing(true);
             setEditErrorMsg(errorMsg);
-            ipcRenderer.removeAllListeners([`edit-contact-entry-${contactEntryKey}-error`]);
+            ipcRenderer.removeAllListeners([`edit-contact-entry-${currentContactEntryKey}-error`]);
         });
         return () => ipcRenderer.removeAllListeners([
             `edit-contact-entry-${contactEntryKey}-success`,
