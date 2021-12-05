@@ -18,6 +18,7 @@ import getContactsOfContactGroupEvent from "./src/ipc-main-events/getContactsOfC
 import saveContactEntriesForContactGroupEvent from "./src/ipc-main-events/saveContactEntriesForContactGroupEvent";
 import loginToTwilioEvent from "./src/ipc-main-events/loginToTwilioEvent";
 import logoutFromTwilioEvent from "./src/ipc-main-events/logoutFromTwilioEvent";
+import getAllContactGroupNamesEvent from "./src/ipc-main-events/getAllContactGroupNamesEvent";
 dotenv.config();
 
 // create the twilio app folder if it does not exist
@@ -37,6 +38,7 @@ ipcMain.on("remove-contact-entry", removeContactEntryEvent);
 ipcMain.on("delete-contact-entry", deleteContactEntryEvent);
 ipcMain.on("delete-contact-group", deleteContactGroupEvent);
 ipcMain.on("search-for-contacts", searchForContactsEvent());
+ipcMain.on("get-all-contact-group-names", getAllContactGroupNamesEvent);
 ipcMain.on("get-all-contacts", searchForContactsEvent("get-all-contacts-success"));
 ipcMain.on("get-contacts-of-contact-group", getContactsOfContactGroupEvent);
 
