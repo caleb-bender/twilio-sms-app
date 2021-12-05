@@ -19,6 +19,7 @@ import saveContactEntriesForContactGroupEvent from "./src/ipc-main-events/saveCo
 import loginToTwilioEvent from "./src/ipc-main-events/loginToTwilioEvent";
 import logoutFromTwilioEvent from "./src/ipc-main-events/logoutFromTwilioEvent";
 import getAllContactGroupNamesEvent from "./src/ipc-main-events/getAllContactGroupNamesEvent";
+import sendMessageToContactGroupRecipientsEvent from "./src/ipc-main-events/sendMessageToContactGroupRecipientsEvent";
 dotenv.config();
 
 // create the twilio app folder if it does not exist
@@ -41,6 +42,7 @@ ipcMain.on("search-for-contacts", searchForContactsEvent());
 ipcMain.on("get-all-contact-group-names", getAllContactGroupNamesEvent);
 ipcMain.on("get-all-contacts", searchForContactsEvent("get-all-contacts-success"));
 ipcMain.on("get-contacts-of-contact-group", getContactsOfContactGroupEvent);
+ipcMain.on("send-message-to-contact-group-recipients", sendMessageToContactGroupRecipientsEvent);
 
 let electronWindow: BrowserWindow | null = null;
 

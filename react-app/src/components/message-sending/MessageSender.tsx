@@ -22,14 +22,23 @@ export default function MessageSender() {
     const [allContactGroups, setAllContactGroups] = useState([] as string[]);
     const [errorMsg, setErrorMsg] = useState("");
     const [successMsg, setSuccessMsg] = useState("");
+    const [loading, setLoading] = useState(false);
     // if the user has created a message before then use their previously used phone number and name
     const [savedTwilioPhoneNumber, setSavedTwilioPhoneNumber] = useState("");
     const [savedNameOnMessage, setSavedNameOnMessage] = useState("");
 
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
+    const clearMessages = () => {
+        setErrorMsg("");
+        setSuccessMsg("");
+    };
+
     const openConfirmationModal = () => setModalIsOpen(true);
-    const closeConfirmationModal = () => setModalIsOpen(false);
+    const closeConfirmationModal = () => {
+        setModalIsOpen(false);
+        clearMessages();
+    };
 
     useEffect(() => {
         ipcRenderer.on("get-saved-phone-number-and-name-success", (event: any, savedMessageProps: SavedMessageProps) => {
@@ -38,11 +47,13 @@ export default function MessageSender() {
             ipcRenderer.removeAllListeners(["get-saved-phone-number-and-name-success"]);
         });
         ipcRenderer.on("send-message-to-contact-group-recipients-success", (event: any, message: string) => {
+            setLoading(false);
             setErrorMsg("");
             setSuccessMsg(message);
             ipcRenderer.removeAllListeners(["send-message-to-contact-group-recipients-success"]);
         });
         ipcRenderer.on("send-message-to-contact-group-recipients-error", (event: any, message: string) => {
+            setLoading(false);
             setSuccessMsg("");
             setErrorMsg(message);
             ipcRenderer.removeAllListeners(["send-message-to-contact-group-recipients-error"]);
@@ -66,11 +77,6 @@ export default function MessageSender() {
         });
     };
 
-    const clearMessages = () => {
-        setErrorMsg("");
-        setSuccessMsg("");
-    };
-
     const updateSelectedContactGroups = (value: any, event: any) => {
         setSelectedContactGroups(value);
     };
@@ -80,7 +86,8 @@ export default function MessageSender() {
         const nameOnMessage = (document.getElementById("twilio-name-on-message") as HTMLInputElement).value;
         const messageBody = (document.getElementById("twilio-message-body") as HTMLInputElement).value;
         clearMessages();
-        ipcRenderer.send("send-message-to-contact-groups", { twilioPhoneNumber, nameOnMessage, selectedContactGroups, messageBody });
+        setLoading(true);
+        ipcRenderer.send("send-message-to-contact-group-recipients", { twilioPhoneNumber, nameOnMessage, selectedContactGroups, messageBody });
     };
 
     return <div>
@@ -124,7 +131,7 @@ export default function MessageSender() {
             </Message>
             </Modal.Body>
             <Modal.Footer>
-                <Button appearance="primary" onClick={sendMessageToContactGroups}>
+                <Button appearance="primary" onClick={sendMessageToContactGroups} loading={loading}>
                     Send Message
                 </Button>
             </Modal.Footer>
