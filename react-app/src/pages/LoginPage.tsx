@@ -4,7 +4,15 @@
  */
 import React from "react";
 import TwilioLoginForm from "../components/auth/TwilioLoginForm";
+import WizrdsFooter from "../components/footer/WizrdsFooter";
 
-export default function LoginPage() {
-    return <TwilioLoginForm />
+interface LoginPageProps {
+    darkTheme: boolean;
+}
+
+export default function LoginPage(props: LoginPageProps) {
+    return <>
+        <TwilioLoginForm />
+        <WizrdsFooter darkTheme={props.darkTheme}/>
+    </>;
 }

@@ -22,7 +22,7 @@ export default function ContactEntriesResultList() {
 
     return <div>
         <SearchForContactsBar updateContactsDisplayList={updateContactsDisplayList}/>
-        <FlexboxGrid justify="center" style={{ margin: "1rem", width: "100%", minWidth: "450px", height: "500px", overflowY: "scroll" }}>
+        <FlexboxGrid justify="center" style={{ margin: "1rem", width: "100%", minWidth: "450px", height: "500px", overflowY: "scroll", overflowX: "hidden"}}>
             {contactEntries.map((contact: any) => <FlexboxGrid.Item as={Row} key={`${contact.firstName} ${contact.lastName}`}>
                 <ContactEntryCard firstName={contact.firstName} lastName={contact.lastName} phoneNumber={contact.phoneNumber} removeContactEntryFromDisplay={removeContactEntryFromDisplay}/>
             </FlexboxGrid.Item>)}

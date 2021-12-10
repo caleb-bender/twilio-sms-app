@@ -27,9 +27,10 @@ export default function ContactGroupDisplayList() {
         ipcRenderer.send("request-contact-groups-list");
     };
 
-    return <div style={{ margin: "1em auto" }}>
+    return <div>
+        <h3 style={{ fontWeight: "normal"}}>Contact Groups</h3>
         <ContactGroupCreationForm updateContactGroupsList={updateContactGroupsList}/>
-        <div style={{ height: "500px", overflowY: "scroll" }}>
+        <div style={{ height: "500px", overflowY: "scroll", overflowX: "hidden" }}>
             {contactGroupComponentList.map((name, index) =>
             <div key={index}>
                 <ContactGroupCard contactGroupName={name} updateContactGroupsList={updateContactGroupsList}/>

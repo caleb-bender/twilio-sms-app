@@ -24,8 +24,8 @@ function App() {
         <CustomProvider theme={darkTheme ? "dark" : "light"}>
             <BrowserRouter>
                 <Routes>
-                    <Route path="/" element={<LoginPage/>}/>
-                    <Route path="/home" element={<HomePage/>}/>
+                    <Route path="/" element={<LoginPage darkTheme={darkTheme} />}/>
+                    <Route path="/home" element={<HomePage darkTheme={darkTheme} />}/>
                 </Routes>
             </BrowserRouter>
         </CustomProvider>
