@@ -33,6 +33,9 @@ export default function HomePage(props: HomePageProps) {
             <FlexboxGrid.Item as={Col} style={{ minWidth: "400px", flexGrow: "2", width: "25%" }}>
                 <MessageSender />
             </FlexboxGrid.Item>
+            <FlexboxGrid.Item as={Col} style={{ minWidth: "400px", flexGrow: "2", width: "100%" }}>
+                <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+            </FlexboxGrid.Item>
         </FlexboxGrid>
         <WizrdsFooter darkTheme={props.darkTheme}/>
     </>;
