@@ -24,7 +24,9 @@ export default function WizrdsFooter(props: WizrdsFooterProps) {
         <FlexboxGrid.Item as={Col}>
             <FlexboxGrid as={Col} justify="center" align="middle">
                 <FlexboxGrid.Item as={Col}>
-                    <img src={`/wizrds_icon_${props.darkTheme ? "night" : "light"}_theme.png`} alt="company logo" style={{ width: "80px", height: "auto" }}/>
+                    <a href="https://webwizrds.com/" target="_blank">
+                        <img src={`/wizrds_icon_${props.darkTheme ? "night" : "light"}_theme.png`} alt="company logo" style={{ width: "80px", height: "auto" }}/>
+                    </a>
                 </FlexboxGrid.Item>
                 <FlexboxGrid.Item as={Col}>
                     <p>&copy; {new Date().getFullYear()} Copyright Wizrds LLC.</p>
