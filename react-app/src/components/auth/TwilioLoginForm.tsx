@@ -4,7 +4,7 @@
  * the user.
  */
 import React, { useEffect, useState } from "react";
-import { InputGroup, Button, Message, Input } from "rsuite";
+import { InputGroup, Button, Message, Input, Whisper, Tooltip } from "rsuite";
 import { Visible, Unvisible } from "@rsuite/icons";
 import "./TwilioLoginForm.css";
 import { useNavigate } from "react-router-dom";
@@ -54,10 +54,14 @@ export default function TwilioLoginForm() {
         <h3 style={{ textAlign: "center" }}>Login with your Twilio credentials</h3>
         <div className="twilio-login-form-body">
             <InputGroup className="form-element">
-                <Input name="twilio-account-sid" id="twilio-account-sid" placeholder="Account SID" onFocus={clearErrorMsg}/>
+                <Whisper trigger="focus" speaker={<Tooltip>Use Ctrl/Cmd + C to copy the Account SID and use Ctrl/Cmd + V to paste</Tooltip>}>
+                    <Input name="twilio-account-sid" id="twilio-account-sid" placeholder="Account SID" onFocus={clearErrorMsg}/>
+                </Whisper>
             </InputGroup>
             <InputGroup className="form-element">
-                <Input name="twilio-auth-token" id="twilio-auth-token" placeholder="Auth Token" type={authTokenVisible ? "text" : "password"} onFocus={clearErrorMsg}/>
+                <Whisper trigger="focus" speaker={<Tooltip>Use Ctrl/Cmd + C to copy the Auth Token and use Ctrl/Cmd + V to paste</Tooltip>}>
+                    <Input name="twilio-auth-token" id="twilio-auth-token" placeholder="Auth Token" type={authTokenVisible ? "text" : "password"} onFocus={clearErrorMsg}/>
+                </Whisper>
                 <InputGroup.Button onClick={toggleVisibility}>
                     {authTokenVisible ? <Visible/> : <Unvisible/>}
                 </InputGroup.Button>

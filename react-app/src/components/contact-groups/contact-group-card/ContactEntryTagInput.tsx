@@ -44,7 +44,7 @@ export default function ContactEntryTagInput(props: ContactEntryTagInputProps) {
 
     useEffect(() => {
         ipcRenderer.on("get-all-contacts-success", (event: any, contactEntries: ContactEntryCardProps[]) => {
-            setAllContactEntries(contactEntries.map(contactEntry => `${contactEntry.firstName} ${contactEntry.lastName}`));
+            setAllContactEntries(contactEntries.map(contactEntry => `${contactEntry.firstName} ${contactEntry.lastName}`).sort());
             ipcRenderer.removeAllListeners(["get-all-contacts-success"]);
         });
         ipcRenderer.on("get-contacts-of-contact-group-error", (event: any, errorMsg: string) => {

@@ -19,13 +19,12 @@ export default function WizrdsFooter(props: WizrdsFooterProps) {
         filter: props.darkTheme ? "invert(1.0)" : "none"
     };
     
-
     return <FlexboxGrid justify="space-between" align="middle" className="wizrds-footer" style={{ position: "fixed", backgroundColor: props.darkTheme ? "black" : "#eee" }}>
         <FlexboxGrid.Item as={Col}>
             <FlexboxGrid as={Col} justify="center" align="middle">
                 <FlexboxGrid.Item as={Col}>
                     <a href="https://webwizrds.com/" target="_blank">
-                        <img src={`/wizrds_icon_${props.darkTheme ? "night" : "light"}_theme.png`} alt="company logo" style={{ width: "80px", height: "auto" }}/>
+                        <img src="/wizrds_icon.png" alt="company logo" style={{ width: "80px", height: "auto", filter: props.darkTheme ? "invert(1.0)" : "none" }}/>
                     </a>
                 </FlexboxGrid.Item>
                 <FlexboxGrid.Item as={Col}>
