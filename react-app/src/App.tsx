@@ -5,7 +5,7 @@
  */
 
 import React, { useState } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, HashRouter } from "react-router-dom";
 import { CustomProvider, Toggle } from "rsuite";
 import "rsuite/dist/rsuite.min.css";
 import HomePage from "./pages/HomePage";
@@ -22,12 +22,12 @@ function App() {
     return <>
         <Toggle size="lg" checkedChildren="Dark" unCheckedChildren="Light" onChange={toggleTheme} style={{ position: "relative", top: "1rem", left: "1rem", zIndex: "100000" }}/>
         <CustomProvider theme={darkTheme ? "dark" : "light"}>
-            <BrowserRouter>
+            <HashRouter basename="/">
                 <Routes>
                     <Route path="/" element={<LoginPage darkTheme={darkTheme} />}/>
                     <Route path="/home" element={<HomePage darkTheme={darkTheme} />}/>
                 </Routes>
-            </BrowserRouter>
+            </HashRouter>
         </CustomProvider>
     </>;
 }

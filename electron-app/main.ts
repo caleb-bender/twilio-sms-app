@@ -3,6 +3,7 @@ import path from "path";
 import dotenv from "dotenv";
 import { ipcMain } from "electron";
 import fs from "fs";
+import url from "url";
 import { promisify } from "util";
 import APP_DATA_DIRECTORY from "./src/business-logic/AppDataDirectory";
 import createContactGroupEvent from "./src/ipc-main-events/createContactGroupEvent";
@@ -52,8 +53,8 @@ function initializeWindow() {
     electronWindow = new BrowserWindow({
         title: process.env.APP_NAME ?? "Loading",
         autoHideMenuBar: true,
-        width: 960,
-        height: 640,
+        width: 1280,
+        height: 720,
         icon: "../../react-app/build/wizrds_icon.ico",
         webPreferences: ({
             enableRemoteModule: true,
@@ -63,6 +64,12 @@ function initializeWindow() {
     });
     if (process.env.NODE_ENV === "production") {
         electronWindow.loadFile(path.join(__dirname, "../../react-app/build/index.html"));
+        // electronWindow.loadURL(url.format({
+        //     pathname: path.join(__dirname, "../../react-app/build/index.html"),
+        //     protocol: 'file:',
+        //     slashes: true,
+        // }));
+        console.log("load react production build");
     } else {
         electronWindow.loadURL(process.env.ELECTRON_START_URL ?? "http://localhost:3000");
     }
