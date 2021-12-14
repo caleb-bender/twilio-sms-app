@@ -24,6 +24,7 @@
       "target": "deb"
     }
   },
+  "homepage": "./",
   "scripts": {
     "compile-electron-ts": "tsc --build",
     "start-electron": "npm run compile-electron-ts && set ELECTRON_START_URL=http://localhost:3000 && electron ./build/main.js",

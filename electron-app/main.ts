@@ -55,7 +55,7 @@ function initializeWindow() {
         autoHideMenuBar: true,
         width: 1280,
         height: 720,
-        icon: "../../react-app/build/wizrds_icon.ico",
+        icon: "../../../react-app/build/wizrds_icon.ico",
         webPreferences: ({
             enableRemoteModule: true,
             nodeIntegration: true,
@@ -63,17 +63,11 @@ function initializeWindow() {
         } as any)
     });
     if (process.env.NODE_ENV === "production") {
-        electronWindow.loadFile(path.join(__dirname, "../../react-app/build/index.html"));
-        // electronWindow.loadURL(url.format({
-        //     pathname: path.join(__dirname, "../../react-app/build/index.html"),
-        //     protocol: 'file:',
-        //     slashes: true,
-        // }));
-        console.log("load react production build");
+        electronWindow.loadURL(`file://${path.join(__dirname, "../../../../../../react-app/build/index.html")}`);
     } else {
         electronWindow.loadURL(process.env.ELECTRON_START_URL ?? "http://localhost:3000");
     }
-    electronWindow.webContents.openDevTools();
+    // electronWindow.webContents.openDevTools();
 
     electronWindow.on("closed", () => {
         electronWindow = null;
