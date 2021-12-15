@@ -13,6 +13,9 @@ export default class DeleteContactEntryCommand implements ICommand<ContactEntryS
     public constructor(contactEntrySchema: ContactEntrySchema) {
         this._contactEntrySchema = contactEntrySchema;
     }
+    /** Executes logic that deletes an existing contact entry.
+     * @returns the deleted contact entry data
+    */
     public async execute(): Promise<ContactEntrySchema> {
         const contactEntry = await ContactEntry.loadContactEntryFromFile(`${this._contactEntrySchema.firstName} ${this._contactEntrySchema.lastName}`);
         await contactEntry.delete();

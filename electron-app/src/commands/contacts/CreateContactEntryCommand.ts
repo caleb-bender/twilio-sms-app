@@ -13,6 +13,7 @@ export default class CreateContactEntryCommand implements ICommand<void> {
     public constructor(contactEntrySchema: ContactEntrySchema) {
         this._contactEntrySchema = contactEntrySchema;
     }
+    /** Executes logic that creates a new contact entry and saves it */
     public async execute(): Promise<void> {
         const contactEntry = await ContactEntry.createContactEntry(this._contactEntrySchema);
         await contactEntry.save();

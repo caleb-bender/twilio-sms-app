@@ -38,7 +38,9 @@ export default class MessageCredentialsValidator {
         this._contactGroups = contactGroups;
         this._messageBody = messageBody;
     }
-
+    /**
+     * Validates that the fields used to send a message are valid
+     */
     public async validate() {
         try {
             await MessageCredentialsValidator

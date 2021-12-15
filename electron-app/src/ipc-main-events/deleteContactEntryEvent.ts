@@ -10,6 +10,10 @@ import ContactEntry, { ContactEntrySchema } from "../business-logic/contact-entr
 import ContactGroup from "../business-logic/contact-group/ContactGroup";
 import DeleteContactEntryCommand from "../commands/contacts/DeleteContactEntryCommand";
 
+/**
+ * In addition to the contact entry being deleted, the deleted contact entry reference is removed from all contact groups
+ * that reference it.
+ */
 export default async function deleteContactEntryEvent(event: Electron.IpcMainEvent, contactEntrySchema: ContactEntrySchema) {
     try {
         const createContactGroupCommand = new DeleteContactEntryCommand(contactEntrySchema);

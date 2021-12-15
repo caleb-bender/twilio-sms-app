@@ -16,6 +16,7 @@ export default class AddContactEntryCommand implements ICommand<void> {
         this._contactGroupName = contactGroupName;
         this._contactEntryKey = contactEntryKey;
     }
+    /** Executes the business logic required to validate and add a reference to a contact entry in the contact group */
     public async execute(): Promise<void> {
         const contactEntries = await ContactEntry.getContactEntriesJson();
         // make sure the contact entry exists before adding it

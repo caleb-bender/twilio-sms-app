@@ -14,7 +14,10 @@ interface CurrentAndNewContactEntries {
     current: ContactEntrySchema;
     new: ContactEntrySchema;
 }
-
+/**
+ * If the contact entry's key changes, all contact groups that
+ * reference it update their keys in this event.
+ */
 export default async function editContactEntryEvent(event: Electron.IpcMainEvent, currentAndNew: CurrentAndNewContactEntries) {
     const currentContactEntryKey = `${ContactEntry.getContactEntryKey(currentAndNew.current)}`;
     try {

@@ -13,7 +13,10 @@ export default class SearchContactsCommand implements ICommand<ContactEntrySchem
     public constructor(contactNameSearch: string) {
         this._contactNameSearch = contactNameSearch.toLowerCase();
     }
-
+    /**
+     * Executes logic that searches all contact entries' first and last names and compares the names with the query
+     * @returns an array of deserialized contact entries that match the search query
+     */
     public async execute(): Promise<ContactEntrySchema[]> {
         const contactEntriesRecord = await ContactEntry.getContactEntriesJson();
         const contactEntriesArr =

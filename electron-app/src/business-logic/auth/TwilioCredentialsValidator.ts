@@ -3,11 +3,12 @@
  * Description: a class that when instantiated validates a set of twilio credentials
  */
 import Joi from "joi";
-import twilio, { Twilio } from "twilio";
-import { getTwilioClient, setTwilioAccountCredentials } from "../TwilioAccountCredentials";
+import twilio from "twilio";
+import { setTwilioAccountCredentials } from "../TwilioAccountCredentials";
 
 export default class TwilioCredentialsValidator {
 
+    /** Validator used to validate both the account sid and the auth token */
     private static codeField = (fieldName: string) => Joi.string().required().regex(/^(\w)+$/).messages({
         "any.required": `The ${fieldName} is required.`,
         "string.empty": `The ${fieldName} is required.`,
@@ -27,6 +28,9 @@ export default class TwilioCredentialsValidator {
         this._authToken = authToken;
     }
 
+    /**
+     * Validates the account credentials specified in the constructor and saves them in the environment if validation succeeds
+     */
     public async validateAndStoreCredentials(): Promise<void> {
         try {
             await TwilioCredentialsValidator._accountCredentialsSchema.validateAsync({ accountSid: this._accountSid, authToken: this._authToken });

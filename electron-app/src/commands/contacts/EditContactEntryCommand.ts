@@ -15,6 +15,8 @@ export default class EditContactEntryCommand implements ICommand<void> {
         this._currentContactEntrySchema = currentContactEntrySchema;
         this._newContactEntrySchema = newContactEntrySchema;
     }
+    /** Executes logic to update an existing contact entry with new data.
+    */
     public async execute(): Promise<void> {
         const contactEntry = await ContactEntry.loadContactEntryFromFile(`${this._currentContactEntrySchema.firstName} ${this._currentContactEntrySchema.lastName}`);
         await contactEntry.update(this._newContactEntrySchema);

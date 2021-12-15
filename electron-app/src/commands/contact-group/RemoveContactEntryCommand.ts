@@ -15,6 +15,7 @@ export default class RemoveContactEntryCommand implements ICommand<void> {
         this._contactGroupName = contactGroupName;
         this._contactEntryKey = contactEntryKey;
     }
+    /** Executes code to remove a contact entry reference from the contact group */
     public async execute(): Promise<void> {
         const contactGroup = await ContactGroup.loadFromFile(this._contactGroupName);
         contactGroup.removeContactEntry(this._contactEntryKey);

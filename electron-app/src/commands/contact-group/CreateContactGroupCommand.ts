@@ -14,7 +14,7 @@ export default class CreateContactGroupCommand implements ICommand<void> {
     public constructor(contactGroupName: string) {
         this._contactGroupName = contactGroupName;
     }
-
+    /** Executes the code necessary to validate, create, and save a new contact group */
     public async execute(): Promise<void> {
         try {
             const contactGroup = await ContactGroup.createFromName(this._contactGroupName);

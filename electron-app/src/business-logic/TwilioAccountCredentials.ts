@@ -10,7 +10,7 @@ dotenv.config();
 import twilio from "twilio";
 
 /**
- * setTwilioAccountCredentials
+ * Save the specified credentials in the environment
  * @param accountSid the Twilio account id
  * @param authToken the Twilio account auth token
  */
