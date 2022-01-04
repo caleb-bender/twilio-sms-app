@@ -55,7 +55,6 @@ function initializeWindow() {
         autoHideMenuBar: true,
         width: 1280,
         height: 720,
-        icon: "../../../react-app/build/wizrds_icon.ico",
         webPreferences: ({
             enableRemoteModule: true,
             nodeIntegration: true,

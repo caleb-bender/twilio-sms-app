@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "A desktop app to send SMS messages with Twilio",
   "scripts": {
-    "start": "set BROWSER=none && react-scripts start",
-    "build": "react-scripts build"
+    "start": "set BROWSER=none && react-scripts --openssl-legacy-provider start",
+    "build": "react-scripts --openssl-legacy-provider build"
   },
   "homepage": "./",
   "author": "Wizrds LLC",

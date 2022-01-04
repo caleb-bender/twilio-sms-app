@@ -10,12 +10,13 @@ import CreateContactEntryForm from "./../components/contact-groups/contacts/Crea
 import ContactEntriesResultList from "./../components/contact-groups/contacts/ContactEntriesResultList";
 import LogoutButton from "../components/auth/LogoutButton";
 import MessageSender from "../components/message-sending/MessageSender";
-import WizrdsFooter from "../components/footer/WizrdsFooter";
 
 interface HomePageProps {
     darkTheme: boolean;
 }
-
+/**
+ * HomePage contains a flexbox grid layout that separates the various features
+ * @param props contains the darkTheme boolean that tells the home page how to render its children */
 export default function HomePage(props: HomePageProps) {
     return <>
         <LogoutButton />
@@ -37,6 +38,5 @@ export default function HomePage(props: HomePageProps) {
                 <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
             </FlexboxGrid.Item>
         </FlexboxGrid>
-        <WizrdsFooter darkTheme={props.darkTheme}/>
     </>;
 }

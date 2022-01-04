@@ -11,6 +11,9 @@ import "rsuite/dist/rsuite.min.css";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 
+/**
+ * @returns The main app component with both the login page and the home page
+ */
 function App() {
 
     const [darkTheme, setDarkTheme] = useState(false);
