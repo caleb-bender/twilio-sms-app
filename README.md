@@ -54,7 +54,7 @@ APP_NAME=Twilio SMS App
 NODE_ENV=production
 ```
 
-Then, launch on the "Twilio SMS App" application (it usually takes 15-20 seconds to load the login screen). The login screen will look like this:
+Then, launch the "Twilio SMS App" application (it usually takes 15-20 seconds to load the login screen). The login screen will look like this:
 
 <img src="https://caleb-bender.com/images/twilio-sms-app/twilio-login.JPG" width="1200"/>
 
