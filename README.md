@@ -132,6 +132,3 @@ I hope you have a good overview on how to use `twilio-sms-app` and thank you for
 
 
 
-
-
-
