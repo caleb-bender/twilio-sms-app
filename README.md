@@ -27,23 +27,7 @@ Notice in the top left you start with $15.50 of credits, more than enough to tes
 
 ## Installation
 
-If you have a Windows PC, head over to the releases tab and download the zip folder for Windows x64. Otherwise, if you have a Mac or Linux machine, then you will need to clone this repository and run the following build commands in the command line:
-
-For Mac:
-```
-/twilio-sms-app (main) cd react-app
-/twilio-sms-app/react-app (main) npm run build
-/twilio-sms-app/react-app (main) cd ../electron-app
-/twilio-sms-app/electron-app (main) npm run build-electron-mac
-```
-
-For Linux:
-```
-/twilio-sms-app (main) cd react-app
-/twilio-sms-app/react-app (main) npm run build
-/twilio-sms-app/react-app (main) cd ../electron-app
-/twilio-sms-app/electron-app (main) npm run build-electron-lin
-```
+If you have a Windows PC, head over to the releases tab and download the zip folder for Windows x64. Otherwise, if you have a Mac or Linux machine, then you will have to clone and build it yourself. I do not own a Mac or Linux machine, so the only release available is for Windows.
 
 ## Authenticating with Twilio
 

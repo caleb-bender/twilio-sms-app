@@ -7,7 +7,7 @@
     "build": "react-scripts --openssl-legacy-provider build"
   },
   "homepage": "./",
-  "author": "Wizrds LLC",
+  "author": "Caleb Bender",
   "license": "ISC",
   "devDependencies": {
     "@babel/preset-env": "^7.16.4",
