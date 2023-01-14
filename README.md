@@ -104,7 +104,7 @@ Make sure you only specified youself under the contact group, because with a Twi
 
 Suppose you tried to send a message to one of your friends. In doing so, you would get this error message:
 
-<img src="https://caleb-bender.com/images/twilio-sms-app/twilio-message-error.JPG" />
+<img src="https://caleb-bender.com/images/twilio-sms-app/twilio-verification-message-error.JPG" />
 
 With a Twilio trial account, you can only send messages to verified numbers, i.e. numbers that have given Twilio consent to receive messages. If you purchase a Twilio phone number, then you can send messages to unverified numbers. However, to stick to the free tier, go to the url specified in the message to verify a phone number other than your own. In doing so, you will arrive at this page:
 
