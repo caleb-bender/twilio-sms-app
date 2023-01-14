@@ -31,7 +31,7 @@ If you have a Windows PC, head over to the releases tab and download the zip fol
 
 ## Authenticating with Twilio
 
-Once you have installed and built `twilio-sms-app`, head to the "application/dist/win-unpacked/" folder on Windows and "electron-app/dist/mac-unpacked" on Mac and "electron-app/dist/lin-unpacked" on Linux respectively. The last thing before launch is to create a `.env` file with the following variables in the unpacked folder:
+Once you have installed `twilio-sms-app`, head to the "application/dist/win-unpacked/" folder inside the extracted zip folder. The last thing before launch is to create a `.env` file with the following variables in the unpacked folder:
 
 ```
 APP_NAME=Twilio SMS App
